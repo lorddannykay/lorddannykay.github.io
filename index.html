@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>DhaniVerse — Under Maintenance</title>
 
     <style>
@@ -269,50 +269,104 @@
 
       @media (max-width: 768px) {
         .logo-text {
-          font-size: 1.5rem;
+          font-size: 1.2rem;
         }
 
         .brand {
-          top: 0.625rem;
-          left: 0.625rem;
+          top: 0.5rem;
+          left: 0.5rem;
         }
 
         .controls {
-          top: 0.625rem;
-          right: 0.625rem;
-          font-size: 0.625rem;
+          top: 0.5rem;
+          right: 0.5rem;
+          font-size: 0.6rem;
+          width: 150px;
         }
 
         .nav-links {
-          top: 0.625rem;
-          font-size: 0.75rem;
+          top: 0.5rem;
+          font-size: 0.65rem;
+          width: 100%;
+          padding: 0 0.5rem;
         }
 
         .nav-links a {
-          margin: 0 var(--spacing-xs);
+          margin: 0 0.25rem;
+          white-space: nowrap;
         }
 
         .help-hint {
-          bottom: 3rem;
-          font-size: 0.5625rem;
-          padding: 0 var(--spacing-sm);
+          bottom: 4rem;
+          font-size: 0.5rem;
+          padding: 0 0.5rem;
+          max-width: 90%;
         }
 
         .coordinates {
-          font-size: 0.5625rem;
-          bottom: var(--spacing-sm);
-          padding: 0 var(--spacing-sm);
+          font-size: 0.5rem;
+          bottom: 0.5rem;
+          padding: 0 0.5rem;
+          max-width: 90%;
         }
 
         .social-links {
-          font-size: 0.5625rem;
-          bottom: var(--spacing-sm);
-          right: var(--spacing-sm);
+          font-size: 0.5rem;
+          bottom: 0.5rem;
+          right: 0.5rem;
+          max-width: 40%;
+        }
+
+        .social-links a {
+          margin-bottom: 0.25rem;
+          white-space: nowrap;
+        }
+
+        .track-info {
+          font-size: 0.5rem;
+          max-width: 150px;
         }
 
         .tp-dfwv {
-          top: 2.5rem !important;
-          right: 0.625rem !important;
+          top: 2rem !important;
+          right: 0.5rem !important;
+          max-width: 90vw !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo-text {
+          font-size: 1rem;
+        }
+
+        .nav-links {
+          font-size: 0.55rem;
+        }
+
+        .nav-links a {
+          margin: 0 0.15rem;
+        }
+
+        .help-hint {
+          font-size: 0.45rem;
+          bottom: 3.5rem;
+        }
+
+        .coordinates {
+          font-size: 0.45rem;
+        }
+
+        .social-links {
+          font-size: 0.45rem;
+          max-width: 35%;
+        }
+
+        .controls {
+          width: 120px;
+        }
+
+        .track-info {
+          max-width: 120px;
         }
       }
     </style>
@@ -473,6 +527,12 @@
         try {
           if (!audioContext) {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Mobile-specific audio context handling
+            if (audioContext.state === 'suspended') {
+              audioContext.resume();
+            }
+            
             source = audioContext.createMediaElementSource(audio);
             analyser = audioContext.createAnalyser();
             analyser.fftSize = 256;
@@ -481,6 +541,8 @@
             dataArray = new Uint8Array(bufferLength);
             source.connect(analyser);
             analyser.connect(audioContext.destination);
+            
+            console.log("✅ Audio context initialized successfully");
           }
           return analyser;
         } catch (e) {
@@ -513,11 +575,13 @@
         }
         document.removeEventListener("click", startAudioOnce);
         document.removeEventListener("keydown", startAudioOnce);
+        document.removeEventListener("touchstart", startAudioOnce);
       }
 
-      // Register one-time listeners
+      // Register one-time listeners for both desktop and mobile
       document.addEventListener("click", startAudioOnce, { once: true });
       document.addEventListener("keydown", startAudioOnce, { once: true });
+      document.addEventListener("touchstart", startAudioOnce, { once: true });
 
       // Initialize button state
       audioBtn.textContent = "[ play ]";
@@ -1504,7 +1568,17 @@
 
       audioBtn.addEventListener("click", () => {
         console.log("🎵 Play button clicked, isPlaying:", isPlaying);
-        
+        handleAudioToggle();
+      });
+
+      // Add touch support for mobile
+      audioBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault(); // Prevent double-triggering
+        console.log("🎵 Play button touched, isPlaying:", isPlaying);
+        handleAudioToggle();
+      });
+
+      function handleAudioToggle() {
         if (!isPlaying) {
           console.log("🔄 Attempting to play audio...");
           setupAnalyser();
@@ -1528,7 +1602,7 @@
           isPlaying = false;
           audioBtn.textContent = "[ play ]";
         }
-      });
+      }
 
       function onWindowResize() {
         const width = window.innerWidth;
