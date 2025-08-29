@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>DhaniVerse — Under Maintenance</title>
 
     <style>
@@ -47,6 +50,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
       }
 
       body {
@@ -55,25 +59,21 @@
         font-family: var(--font-primary);
         user-select: none;
         color: var(--color-text);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
         position: fixed;
         width: 100%;
         height: 100%;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-        margin: 0;
-        padding: 0;
       }
 
       #container {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        margin: 0;
-        padding: 0;
       }
 
       h1 {
@@ -155,7 +155,6 @@
         min-height: 44px;
         min-width: 44px;
         touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
       }
 
       button:hover {
@@ -174,8 +173,7 @@
 
       canvas {
         display: block;
-        width: 100% !important;
-        height: 100% !important;
+        touch-action: none;
       }
 
       .tp-dfwv {
@@ -202,9 +200,6 @@
         z-index: var(--z-modal);
         opacity: 0.8;
         text-align: center;
-        width: 100%;
-        padding: 0 var(--spacing-md);
-        box-sizing: border-box;
       }
 
       .nav-links a {
@@ -216,7 +211,7 @@
         padding: 0.25rem;
         min-height: 44px;
         min-width: 44px;
-        display: inline-flex;
+        display: flex;
         align-items: center;
         justify-content: center;
       }
@@ -233,8 +228,6 @@
         left: 0;
         right: 0;
         z-index: var(--z-modal);
-        width: 100%;
-        box-sizing: border-box;
       }
 
       .coordinates {
@@ -249,8 +242,6 @@
         opacity: 0.6;
         font-family: var(--font-primary);
         padding: 0 var(--spacing-lg);
-        max-width: 90%;
-        word-wrap: break-word;
       }
 
       .social-links {
@@ -262,7 +253,6 @@
         text-transform: uppercase;
         opacity: 0.7;
         text-align: right;
-        max-width: 40%;
       }
 
       .social-links a {
@@ -298,19 +288,16 @@
         text-align: center;
         line-height: 1.4;
         z-index: var(--z-modal);
-        max-width: 90%;
-        padding: 0 var(--spacing-md);
-        word-wrap: break-word;
       }
 
       .help-hint.hidden {
         opacity: 0;
       }
 
-      /* Enhanced mobile responsiveness */
+      /* Mobile Optimizations */
       @media (max-width: 768px) {
         .logo-text {
-          font-size: 1.2rem;
+          font-size: 1.25rem;
         }
 
         .brand {
@@ -321,101 +308,83 @@
         .controls {
           top: 0.5rem;
           right: 0.5rem;
-          font-size: 0.6rem;
+          font-size: 0.625rem;
           width: 150px;
+        }
+
+        .track-info {
+          width: 150px;
+          font-size: 0.5rem;
         }
 
         .nav-links {
           top: 0.5rem;
-          font-size: 0.65rem;
+          font-size: 0.625rem;
           width: 100%;
           padding: 0 0.5rem;
-          flex-wrap: wrap;
-          justify-content: center;
         }
 
         .nav-links a {
           margin: 0 0.25rem;
-          white-space: nowrap;
-          font-size: 0.6rem;
-          padding: 0.5rem 0.25rem;
+          font-size: 0.5rem;
+          padding: 0.5rem;
         }
 
         .help-hint {
-          bottom: 4rem;
+          bottom: 2.5rem;
           font-size: 0.5rem;
           padding: 0 0.5rem;
-          max-width: 95%;
+          line-height: 1.3;
         }
 
         .coordinates {
           font-size: 0.5rem;
-          bottom: 0.5rem;
+          bottom: 0.75rem;
           padding: 0 0.5rem;
-          max-width: 95%;
         }
 
         .social-links {
           font-size: 0.5rem;
-          bottom: 0.5rem;
+          bottom: 0.75rem;
           right: 0.5rem;
-          max-width: 45%;
         }
 
         .social-links a {
           margin-bottom: 0.25rem;
-          white-space: nowrap;
-          font-size: 0.5rem;
           padding: 0.25rem;
-        }
-
-        .track-info {
           font-size: 0.5rem;
-          max-width: 150px;
         }
 
         .tp-dfwv {
           top: 2rem !important;
           right: 0.5rem !important;
-          max-width: 90vw !important;
+          max-width: calc(100vw - 1rem) !important;
+        }
+
+        button {
+          font-size: 0.625rem;
+          padding: 0.75rem;
         }
       }
 
+      /* Small mobile devices */
       @media (max-width: 480px) {
         .logo-text {
           font-size: 1rem;
         }
 
         .nav-links {
-          font-size: 0.55rem;
-          top: 0.25rem;
+          font-size: 0.5rem;
         }
 
         .nav-links a {
-          margin: 0 0.15rem;
-          font-size: 0.5rem;
-          padding: 0.25rem 0.15rem;
+          margin: 0 0.125rem;
+          font-size: 0.45rem;
         }
 
         .help-hint {
           font-size: 0.45rem;
-          bottom: 3.5rem;
-          max-width: 98%;
-        }
-
-        .coordinates {
-          font-size: 0.45rem;
-          max-width: 98%;
-        }
-
-        .social-links {
-          font-size: 0.45rem;
-          max-width: 50%;
-        }
-
-        .social-links a {
-          font-size: 0.45rem;
-          padding: 0.2rem;
+          bottom: 2rem;
         }
 
         .controls {
@@ -423,9 +392,13 @@
         }
 
         .track-info {
-          max-width: 120px;
+          width: 120px;
+          font-size: 0.45rem;
         }
+      }
 
+      /* Landscape mobile */
+      @media (max-height: 500px) and (orientation: landscape) {
         .brand {
           top: 0.25rem;
           left: 0.25rem;
@@ -435,111 +408,22 @@
           top: 0.25rem;
           right: 0.25rem;
         }
-      }
 
-      @media (max-width: 360px) {
         .nav-links {
-          font-size: 0.5rem;
-        }
-
-        .nav-links a {
-          font-size: 0.45rem;
-          margin: 0 0.1rem;
-          padding: 0.2rem 0.1rem;
-        }
-
-        .logo-text {
-          font-size: 0.9rem;
+          top: 0.25rem;
         }
 
         .help-hint {
-          font-size: 0.4rem;
-          bottom: 3rem;
+          bottom: 1.5rem;
         }
 
         .coordinates {
-          font-size: 0.4rem;
+          bottom: 0.5rem;
         }
 
         .social-links {
-          font-size: 0.4rem;
-        }
-
-        .social-links a {
-          font-size: 0.4rem;
-        }
-      }
-
-      /* Prevent horizontal scroll on mobile */
-      @media (max-width: 100vw) {
-        body {
-          overflow-x: hidden;
-        }
-        
-        #container {
-          overflow-x: hidden;
-        }
-      }
-
-      /* Additional mobile fixes */
-      html {
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-      }
-
-      /* Ensure all elements stay within bounds */
-      .brand, .controls, .nav-links, .page-footer {
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-
-      /* Fix for iOS Safari viewport issues */
-      @supports (-webkit-touch-callout: none) {
-        body {
-          min-height: -webkit-fill-available;
-        }
-        
-        #container {
-          min-height: -webkit-fill-available;
-        }
-      }
-
-      /* Aggressive overflow prevention */
-      * {
-        max-width: 100vw;
-        max-height: 100vh;
-      }
-
-      /* Ensure canvas doesn't overflow */
-      canvas {
-        max-width: 100% !important;
-        max-height: 100% !important;
-        object-fit: contain;
-      }
-
-      /* Mobile-specific viewport fixes */
-      @media screen and (max-width: 768px) {
-        body {
-          position: fixed !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          overflow: hidden !important;
-        }
-        
-        #container {
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          overflow: hidden !important;
+          bottom: 0.5rem;
+          right: 0.25rem;
         }
       }
     </style>
@@ -592,13 +476,30 @@
       import * as THREE from "https://unpkg.com/three@0.178.0/build/three.module.js";
       import { Pane } from "https://cdn.skypack.dev/tweakpane@4.0.4";
 
+      // Mobile detection
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+
+      // Mobile performance settings
+      const mobileSettings = {
+        pixelRatio: isMobile ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2),
+        waterResolution: isMobile ? 128 : 256,
+        fftSize: isMobile ? 128 : 256,
+        maxFPS: isMobile ? 30 : 60
+      };
+
       const scene = new THREE.Scene();
       const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
-      const pixelRatio = Math.min(window.devicePixelRatio, 2);
+      const renderer = new THREE.WebGLRenderer({ 
+        antialias: !isMobile,
+        powerPreference: "high-performance",
+        failIfMajorPerformanceCaveat: false
+      });
+      
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(pixelRatio);
-      renderer.debug.checkShaderErrors = true; // surface shader errors in console
+      renderer.setPixelRatio(mobileSettings.pixelRatio);
+      renderer.debug.checkShaderErrors = true;
       document.getElementById("container").appendChild(renderer.domElement);
 
       let isPlaying = false;
@@ -607,7 +508,6 @@
       let dataArray = null;
       let source = null;
       let panelVisible = false;
-      let audioInitialized = false;
       let audioLevels = {
         bassLevel: 0,
         midLevel: 0,
@@ -661,16 +561,19 @@
       console.log("🎵 Selected track:", getTrackName(randomTrack));
       console.log("📁 Total tracks available:", audioTracks.length);
       
-      // Create audio object with mobile-friendly settings
+      // Create audio object with mobile optimizations
       const audio = new Audio();
       audio.src = randomTrack;
-      audio.preload = "auto";
+      audio.preload = isMobile ? "metadata" : "auto";
       audio.volume = 0.5;
       audio.crossOrigin = "anonymous";
       
       // Mobile-specific audio settings
-      audio.setAttribute('playsinline', '');
-      audio.setAttribute('webkit-playsinline', '');
+      if (isMobile) {
+        audio.autoplay = false;
+        audio.muted = false;
+        audio.playsInline = true;
+      }
       
       // Add error handling for audio loading
       audio.addEventListener("error", (e) => {
@@ -699,33 +602,20 @@
       });
       audio.load();
 
-      // --- Enhanced Web Audio API for mobile compatibility ---
+      // --- Web Audio API for audio-reactive visuals ---
+      // helper to connect audio into analyser once
       function setupAnalyser() {
         try {
           if (!audioContext) {
-            // Use the correct AudioContext constructor for mobile
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContextClass();
-            
-            // Mobile-specific audio context handling
-            if (audioContext.state === 'suspended') {
-              audioContext.resume().then(() => {
-                console.log("✅ Audio context resumed successfully");
-              }).catch(e => {
-                console.warn("Audio context resume failed:", e);
-              });
-            }
-            
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
             source = audioContext.createMediaElementSource(audio);
             analyser = audioContext.createAnalyser();
-            analyser.fftSize = 256;
+            analyser.fftSize = mobileSettings.fftSize;
             analyser.smoothingTimeConstant = 0.8;
             const bufferLength = analyser.frequencyBinCount;
             dataArray = new Uint8Array(bufferLength);
             source.connect(analyser);
             analyser.connect(audioContext.destination);
-            
-            console.log("✅ Audio context initialized successfully");
           }
           return analyser;
         } catch (e) {
@@ -738,23 +628,18 @@
 
       // --- Enhanced mobile audio handling ---
       function startAudioOnce() {
-        console.log("🎵 Starting audio on user interaction...");
+        console.log("🎵 Starting audio (mobile:", isMobile, ")");
         
-        // Resume audio context if suspended
-        if (audioContext && audioContext.state === "suspended") {
-          audioContext.resume().then(() => {
-            console.log("✅ Audio context resumed");
-          }).catch(e => {
-            console.warn("Audio context resume failed:", e);
-          });
+        // For mobile, ensure user interaction
+        if (isMobile && !audioContext) {
+          console.log("📱 Mobile device detected, setting up audio context");
         }
         
         setupAnalyser();
-        audioInitialized = true;
         isPlaying = true;
         audio.currentTime = 0;
         
-        // Use a more robust play approach for mobile
+        // Mobile-specific play handling
         const playPromise = audio.play();
         
         if (playPromise !== undefined) {
@@ -762,71 +647,66 @@
             .then(() => {
               console.log("✅ Audio started successfully");
               audioBtn.textContent = "[ stop ]";
+              
+              // Resume context if suspended (common in mobile browsers)
+              if (audioContext && audioContext.state === "suspended") {
+                audioContext.resume().then(() => {
+                  console.log("🔊 Audio context resumed");
+                });
+              }
             })
             .catch((e) => {
               console.error("❌ Audio play failed:", e);
               console.error("🔍 Error details:", e.message);
-              audioBtn.textContent = "[ audio failed ]";
-              isPlaying = false;
               
-              // Try alternative approach for mobile
-              if (e.name === 'NotAllowedError') {
-                console.log("🔄 Trying alternative mobile audio approach...");
-                // For some mobile browsers, we need to wait for user gesture
-                setTimeout(() => {
-                  audio.play().catch(e2 => {
-                    console.error("❌ Alternative audio approach also failed:", e2);
-                  });
-                }, 100);
+              // Mobile-specific error handling
+              if (isMobile) {
+                if (e.name === 'NotAllowedError') {
+                  audioBtn.textContent = "[ tap to play ]";
+                  console.log("📱 Mobile: User interaction required");
+                } else if (e.name === 'NotSupportedError') {
+                  audioBtn.textContent = "[ unsupported ]";
+                  console.log("📱 Mobile: Audio format not supported");
+                } else {
+                  audioBtn.textContent = "[ audio failed ]";
+                }
+              } else {
+                audioBtn.textContent = "[ audio failed ]";
               }
+              
+              isPlaying = false;
             });
         }
         
-        // Remove event listeners after first successful interaction
         document.removeEventListener("click", startAudioOnce);
         document.removeEventListener("keydown", startAudioOnce);
         document.removeEventListener("touchstart", startAudioOnce);
       }
 
-      // Register one-time listeners for both desktop and mobile
+      // Register one-time listeners with mobile support
       document.addEventListener("click", startAudioOnce, { once: true });
       document.addEventListener("keydown", startAudioOnce, { once: true });
-      document.addEventListener("touchstart", startAudioOnce, { once: true });
+      if (isMobile) {
+        document.addEventListener("touchstart", startAudioOnce, { once: true });
+      }
 
       // Initialize button state
       audioBtn.textContent = "[ play ]";
 
-             // Add audio event listeners to keep state in sync
-       audio.addEventListener("play", () => {
-         isPlaying = true;
-         audioBtn.textContent = "[ stop ]";
-         console.log("🎵 Audio play event - button updated to stop");
-       });
 
-       audio.addEventListener("pause", () => {
-         isPlaying = false;
-         audioBtn.textContent = "[ play ]";
-         console.log("🎵 Audio pause event - button updated to play");
-       });
-
-       audio.addEventListener("ended", () => {
-         isPlaying = false;
-         audioBtn.textContent = "[ play ]";
-         console.log("🎵 Audio ended event - button updated to play");
-       });
 
       const waterSettings = {
-        resolution: 256,
+        resolution: mobileSettings.waterResolution,
         damping: 0.913,
         tension: 0.02,
         rippleStrength: 0.2,
-        mouseIntensity: 1.2,
-        clickIntensity: 3.0,
-        rippleRadius: 8,
-        splatForce: 50000,
+        mouseIntensity: isMobile ? 0.8 : 1.2,
+        clickIntensity: isMobile ? 2.0 : 3.0,
+        rippleRadius: isMobile ? 6 : 8,
+        splatForce: isMobile ? 30000 : 50000,
         splatThickness: 0.1,
-        vorticityInfluence: 0.2,
-        swirlIntensity: 0.2,
+        vorticityInfluence: isMobile ? 0.1 : 0.2,
+        swirlIntensity: isMobile ? 0.1 : 0.2,
         pressure: 0.3,
         velocityDissipation: 0.08,
         densityDissipation: 1.0,
@@ -1317,7 +1197,7 @@
         fragmentShader,
         uniforms: {
           u_time: { value: 0.0 },
-          u_resolution: { value: new THREE.Vector2(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio) },
+          u_resolution: { value: new THREE.Vector2(window.innerWidth * mobileSettings.pixelRatio, window.innerHeight * mobileSettings.pixelRatio) },
           u_speed: { value: 1.3 },
           u_waterTexture: { value: waterTexture },
           u_waterStrength: { value: 0.55 },
@@ -1730,25 +1610,23 @@
 
       function onTouchMove(event) {
         event.preventDefault();
-        event.stopPropagation();
-        
-        if (event.touches.length === 0) return;
-        
         const rect = renderer.domElement.getBoundingClientRect();
         const touch = event.touches[0];
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
         const now = performance.now();
 
-        if (now - mouseThrottleTime < 8) return;
+        // Mobile-specific throttling
+        const throttleTime = isMobile ? 16 : 8;
+        if (now - mouseThrottleTime < throttleTime) return;
         mouseThrottleTime = now;
 
         const dx = x - lastMousePosition.x;
         const dy = y - lastMousePosition.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const velocity = distance / 8;
+        const velocity = distance / (isMobile ? 16 : 8);
 
-        if (distance > 1) {
+        if (distance > (isMobile ? 2 : 1)) {
           const velocityInfluence = Math.min(velocity / 10, 2.0);
           const baseIntensity = Math.min(distance / 20, 1.0);
           const fluidIntensity =
@@ -1756,8 +1634,8 @@
           const variation = Math.random() * 0.3 + 0.7;
           const finalIntensity = fluidIntensity * variation;
 
-          const jitterX = x + (Math.random() - 0.5) * 3;
-          const jitterY = y + (Math.random() - 0.5) * 3;
+          const jitterX = x + (Math.random() - 0.5) * (isMobile ? 2 : 3);
+          const jitterY = y + (Math.random() - 0.5) * (isMobile ? 2 : 3);
 
           addRipple(jitterX, jitterY, finalIntensity);
 
@@ -1768,18 +1646,10 @@
 
       function onTouchStart(event) {
         event.preventDefault();
-        event.stopPropagation();
-        
-        if (event.touches.length === 0) return;
-        
         const rect = renderer.domElement.getBoundingClientRect();
         const touch = event.touches[0];
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
-
-        // Set initial position for touch tracking
-        lastMousePosition.x = x;
-        lastMousePosition.y = y;
 
         addRipple(x, y, waterSettings.clickIntensity);
 
@@ -1789,22 +1659,27 @@
         material.uniforms.u_ripple_time.value = clock.getElapsedTime();
       }
 
-      function onTouchEnd(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        // Reset touch state if needed
-      }
-
       window.addEventListener("mousemove", onMouseMove);
       window.addEventListener("click", onMouseClick);
       window.addEventListener("touchmove", onTouchMove, { passive: false });
       window.addEventListener("touchstart", onTouchStart, { passive: false });
-      window.addEventListener("touchend", onTouchEnd, { passive: false });
 
       const clock = new THREE.Clock();
+      let lastFrameTime = 0;
 
       function animate() {
+        const currentTime = performance.now();
+        const deltaTime = currentTime - lastFrameTime;
+        
+        // Mobile frame rate limiting
+        if (isMobile && deltaTime < (1000 / mobileSettings.maxFPS)) {
+          requestAnimationFrame(animate);
+          return;
+        }
+        
+        lastFrameTime = currentTime;
         requestAnimationFrame(animate);
+        
         const elapsed = clock.getElapsedTime();
         material.uniforms.u_time.value = elapsed;
         updateAudioAnalysis();
@@ -1812,125 +1687,77 @@
         renderer.render(scene, camera);
       }
 
-      // Enhanced mobile-friendly audio button handling
-      audioBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("🎵 Play button clicked, isPlaying:", isPlaying, "audioInitialized:", audioInitialized);
-        handleAudioToggle();
+      audioBtn.addEventListener("click", () => {
+        console.log("🎵 Play button clicked, isPlaying:", isPlaying);
+        
+        if (!isPlaying) {
+          console.log("🔄 Attempting to play audio...");
+          setupAnalyser();
+          
+          const playPromise = audio.play();
+          
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                console.log("✅ Audio started successfully");
+                isPlaying = true;
+                audioBtn.textContent = "[ stop ]";
+                
+                // Resume context if suspended (common in mobile browsers)
+                if (audioContext && audioContext.state === "suspended") {
+                  audioContext.resume().then(() => {
+                    console.log("🔊 Audio context resumed");
+                  });
+                }
+              })
+              .catch((e) => {
+                console.error("❌ Audio play failed:", e);
+                console.error("🔍 Error details:", e.message);
+                
+                // Mobile-specific error handling
+                if (isMobile) {
+                  if (e.name === 'NotAllowedError') {
+                    audioBtn.textContent = "[ tap to play ]";
+                    console.log("📱 Mobile: User interaction required");
+                  } else if (e.name === 'NotSupportedError') {
+                    audioBtn.textContent = "[ unsupported ]";
+                    console.log("📱 Mobile: Audio format not supported");
+                  } else {
+                    audioBtn.textContent = "[ audio failed ]";
+                  }
+                } else {
+                  audioBtn.textContent = "[ audio failed ]";
+                }
+                
+                isPlaying = false;
+              });
+          }
+        } else {
+          console.log("⏸️ Stopping audio...");
+          audio.pause();
+          audio.currentTime = 0;
+          isPlaying = false;
+          audioBtn.textContent = "[ play ]";
+        }
       });
-
-      // Improved touch support for mobile
-      audioBtn.addEventListener("touchstart", (e) => {
-        e.preventDefault(); // Prevent double-triggering
-        e.stopPropagation();
-        console.log("🎵 Play button touched, isPlaying:", isPlaying, "audioInitialized:", audioInitialized);
-        handleAudioToggle();
-      }, { passive: false });
-
-      // Add mousedown event for better mobile responsiveness
-      audioBtn.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      });
-
-             function handleAudioToggle() {
-         console.log("🎵 Audio toggle called, current isPlaying:", isPlaying);
-         
-         if (!isPlaying) {
-           console.log("🔄 Attempting to play audio...");
-           
-           // Ensure audio context is resumed for mobile
-           if (audioContext && audioContext.state === "suspended") {
-             audioContext.resume().then(() => {
-               console.log("✅ Audio context resumed for play");
-             }).catch(e => {
-               console.warn("Audio context resume failed:", e);
-             });
-           }
-           
-           setupAnalyser();
-           
-           // Use a more robust play approach for mobile
-           const playPromise = audio.play();
-           
-           if (playPromise !== undefined) {
-             playPromise
-               .then(() => {
-                 console.log("✅ Audio started successfully");
-                 isPlaying = true;
-                 audioBtn.textContent = "[ stop ]";
-                 console.log("🎵 Button text updated to stop, isPlaying:", isPlaying);
-               })
-               .catch((e) => {
-                 console.error("❌ Audio play failed:", e);
-                 console.error("🔍 Error details:", e.message);
-                 audioBtn.textContent = "[ audio failed ]";
-                 isPlaying = false;
-                 
-                 // Try alternative approach for mobile browsers
-                 if (e.name === 'NotAllowedError' || e.name === 'NotSupportedError') {
-                   console.log("🔄 Trying alternative mobile audio approach...");
-                   setTimeout(() => {
-                     audio.play().catch(e2 => {
-                       console.error("❌ Alternative audio approach also failed:", e2);
-                     });
-                   }, 200);
-                 }
-               });
-           }
-         } else {
-           console.log("⏸️ Stopping audio...");
-           audio.pause();
-           audio.currentTime = 0;
-           isPlaying = false;
-           audioBtn.textContent = "[ play ]";
-           console.log("🎵 Button text updated to play, isPlaying:", isPlaying);
-         }
-       }
 
       function onWindowResize() {
         const width = window.innerWidth;
         const height = window.innerHeight;
-        const currentPixelRatio = Math.min(window.devicePixelRatio, 2);
+        const currentPixelRatio = mobileSettings.pixelRatio;
 
-        // Ensure canvas fits properly on mobile
         renderer.setSize(width, height);
         renderer.setPixelRatio(currentPixelRatio);
-
-        // Update camera aspect ratio for mobile
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
 
         material.uniforms.u_resolution.value.set(
           width * currentPixelRatio,
           height * currentPixelRatio
         );
 
-        // Recreate logo texture with new dimensions
         setupLogoTexture();
-        
-        console.log("📱 Window resized to:", width, "x", height, "pixel ratio:", currentPixelRatio);
       }
 
       window.addEventListener("resize", onWindowResize);
-      
-      // Handle mobile orientation changes
-      window.addEventListener("orientationchange", () => {
-        setTimeout(() => {
-          onWindowResize();
-        }, 100);
-      });
-
-      // Prevent zoom on double tap for mobile
-      let lastTouchEnd = 0;
-      document.addEventListener('touchend', function (event) {
-        const now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-          event.preventDefault();
-        }
-        lastTouchEnd = now;
-      }, false);
 
       updateCoordinates();
       setupLogoTexture();
