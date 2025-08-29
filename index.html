@@ -55,15 +55,25 @@
         font-family: var(--font-primary);
         user-select: none;
         color: var(--color-text);
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        margin: 0;
+        padding: 0;
       }
 
       #container {
         position: relative;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
       }
 
       h1 {
@@ -141,6 +151,11 @@
         font-size: 0.75rem;
         text-transform: uppercase;
         transition: opacity var(--transition-fast);
+        padding: 0.5rem;
+        min-height: 44px;
+        min-width: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
       }
 
       button:hover {
@@ -159,6 +174,8 @@
 
       canvas {
         display: block;
+        width: 100% !important;
+        height: 100% !important;
       }
 
       .tp-dfwv {
@@ -185,6 +202,9 @@
         z-index: var(--z-modal);
         opacity: 0.8;
         text-align: center;
+        width: 100%;
+        padding: 0 var(--spacing-md);
+        box-sizing: border-box;
       }
 
       .nav-links a {
@@ -193,6 +213,12 @@
         text-decoration: none;
         margin: 0 0.9375rem;
         transition: opacity var(--transition-fast);
+        padding: 0.25rem;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .nav-links a:hover,
@@ -207,6 +233,8 @@
         left: 0;
         right: 0;
         z-index: var(--z-modal);
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .coordinates {
@@ -221,6 +249,8 @@
         opacity: 0.6;
         font-family: var(--font-primary);
         padding: 0 var(--spacing-lg);
+        max-width: 90%;
+        word-wrap: break-word;
       }
 
       .social-links {
@@ -232,6 +262,7 @@
         text-transform: uppercase;
         opacity: 0.7;
         text-align: right;
+        max-width: 40%;
       }
 
       .social-links a {
@@ -240,6 +271,12 @@
         text-decoration: none;
         margin-bottom: 0.375rem;
         transition: opacity var(--transition-fast);
+        padding: 0.25rem;
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
 
       .social-links a:hover,
@@ -261,12 +298,16 @@
         text-align: center;
         line-height: 1.4;
         z-index: var(--z-modal);
+        max-width: 90%;
+        padding: 0 var(--spacing-md);
+        word-wrap: break-word;
       }
 
       .help-hint.hidden {
         opacity: 0;
       }
 
+      /* Enhanced mobile responsiveness */
       @media (max-width: 768px) {
         .logo-text {
           font-size: 1.2rem;
@@ -289,37 +330,43 @@
           font-size: 0.65rem;
           width: 100%;
           padding: 0 0.5rem;
+          flex-wrap: wrap;
+          justify-content: center;
         }
 
         .nav-links a {
           margin: 0 0.25rem;
           white-space: nowrap;
+          font-size: 0.6rem;
+          padding: 0.5rem 0.25rem;
         }
 
         .help-hint {
           bottom: 4rem;
           font-size: 0.5rem;
           padding: 0 0.5rem;
-          max-width: 90%;
+          max-width: 95%;
         }
 
         .coordinates {
           font-size: 0.5rem;
           bottom: 0.5rem;
           padding: 0 0.5rem;
-          max-width: 90%;
+          max-width: 95%;
         }
 
         .social-links {
           font-size: 0.5rem;
           bottom: 0.5rem;
           right: 0.5rem;
-          max-width: 40%;
+          max-width: 45%;
         }
 
         .social-links a {
           margin-bottom: 0.25rem;
           white-space: nowrap;
+          font-size: 0.5rem;
+          padding: 0.25rem;
         }
 
         .track-info {
@@ -341,24 +388,34 @@
 
         .nav-links {
           font-size: 0.55rem;
+          top: 0.25rem;
         }
 
         .nav-links a {
           margin: 0 0.15rem;
+          font-size: 0.5rem;
+          padding: 0.25rem 0.15rem;
         }
 
         .help-hint {
           font-size: 0.45rem;
           bottom: 3.5rem;
+          max-width: 98%;
         }
 
         .coordinates {
           font-size: 0.45rem;
+          max-width: 98%;
         }
 
         .social-links {
           font-size: 0.45rem;
-          max-width: 35%;
+          max-width: 50%;
+        }
+
+        .social-links a {
+          font-size: 0.45rem;
+          padding: 0.2rem;
         }
 
         .controls {
@@ -367,6 +424,122 @@
 
         .track-info {
           max-width: 120px;
+        }
+
+        .brand {
+          top: 0.25rem;
+          left: 0.25rem;
+        }
+
+        .controls {
+          top: 0.25rem;
+          right: 0.25rem;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .nav-links {
+          font-size: 0.5rem;
+        }
+
+        .nav-links a {
+          font-size: 0.45rem;
+          margin: 0 0.1rem;
+          padding: 0.2rem 0.1rem;
+        }
+
+        .logo-text {
+          font-size: 0.9rem;
+        }
+
+        .help-hint {
+          font-size: 0.4rem;
+          bottom: 3rem;
+        }
+
+        .coordinates {
+          font-size: 0.4rem;
+        }
+
+        .social-links {
+          font-size: 0.4rem;
+        }
+
+        .social-links a {
+          font-size: 0.4rem;
+        }
+      }
+
+      /* Prevent horizontal scroll on mobile */
+      @media (max-width: 100vw) {
+        body {
+          overflow-x: hidden;
+        }
+        
+        #container {
+          overflow-x: hidden;
+        }
+      }
+
+      /* Additional mobile fixes */
+      html {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Ensure all elements stay within bounds */
+      .brand, .controls, .nav-links, .page-footer {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Fix for iOS Safari viewport issues */
+      @supports (-webkit-touch-callout: none) {
+        body {
+          min-height: -webkit-fill-available;
+        }
+        
+        #container {
+          min-height: -webkit-fill-available;
+        }
+      }
+
+      /* Aggressive overflow prevention */
+      * {
+        max-width: 100vw;
+        max-height: 100vh;
+      }
+
+      /* Ensure canvas doesn't overflow */
+      canvas {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain;
+      }
+
+      /* Mobile-specific viewport fixes */
+      @media screen and (max-width: 768px) {
+        body {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          overflow: hidden !important;
+        }
+        
+        #container {
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          overflow: hidden !important;
         }
       }
     </style>
@@ -434,6 +607,7 @@
       let dataArray = null;
       let source = null;
       let panelVisible = false;
+      let audioInitialized = false;
       let audioLevels = {
         bassLevel: 0,
         midLevel: 0,
@@ -449,8 +623,8 @@
       // Just add new entries to this array when you add files to assets/audio/
       const audioTracks = [
         "assets/audio/switch.mp3",
-        "assets/audio/Take it all.mp3",
-        "assets/audio/Victory Lap.mp3",
+        "assets/audio/Yellow Claw - Take it all.mp3",
+        "assets/audio/Fred again & Skepta - Victory Lap.mp3",
         // Add new tracks here as you add them to the assets/audio folder
         // Example: "assets/audio/your-new-track.mp3",
       ];
@@ -487,12 +661,16 @@
       console.log("🎵 Selected track:", getTrackName(randomTrack));
       console.log("📁 Total tracks available:", audioTracks.length);
       
-      // Create audio object
+      // Create audio object with mobile-friendly settings
       const audio = new Audio();
       audio.src = randomTrack;
       audio.preload = "auto";
       audio.volume = 0.5;
       audio.crossOrigin = "anonymous";
+      
+      // Mobile-specific audio settings
+      audio.setAttribute('playsinline', '');
+      audio.setAttribute('webkit-playsinline', '');
       
       // Add error handling for audio loading
       audio.addEventListener("error", (e) => {
@@ -516,21 +694,26 @@
       audio.addEventListener("ended", () => {
         if (isPlaying) {
           audio.currentTime = 0;
-          audio.play();
+          audio.play().catch(e => console.log("Loop play failed:", e));
         }
       });
       audio.load();
 
-      // --- Web Audio API for audio-reactive visuals ---
-      // helper to connect audio into analyser once
+      // --- Enhanced Web Audio API for mobile compatibility ---
       function setupAnalyser() {
         try {
           if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            // Use the correct AudioContext constructor for mobile
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContextClass();
             
             // Mobile-specific audio context handling
             if (audioContext.state === 'suspended') {
-              audioContext.resume();
+              audioContext.resume().then(() => {
+                console.log("✅ Audio context resumed successfully");
+              }).catch(e => {
+                console.warn("Audio context resume failed:", e);
+              });
             }
             
             source = audioContext.createMediaElementSource(audio);
@@ -553,26 +736,53 @@
         }
       }
 
-      // --- Autoplay enhancement ---
-      // Will trigger playback + analyser after first click or key press
+      // --- Enhanced mobile audio handling ---
       function startAudioOnce() {
-        setupAnalyser();           // hook audio into analyser
-        isPlaying = true;          // sync with your existing play state
-        audio.currentTime = 0;
-        audio.play()
-          .then(() => {
-            // Update button state when autoplay succeeds
-            const audioBtn = document.getElementById("audioBtn");
-            audioBtn.textContent = "[ stop ]";
-          })
-          .catch((e) => {
-            console.log("Autoplay failed:", e);
-            isPlaying = false;
-          });
-        // resume context if suspended (common in Chrome)
+        console.log("🎵 Starting audio on user interaction...");
+        
+        // Resume audio context if suspended
         if (audioContext && audioContext.state === "suspended") {
-          audioContext.resume();
+          audioContext.resume().then(() => {
+            console.log("✅ Audio context resumed");
+          }).catch(e => {
+            console.warn("Audio context resume failed:", e);
+          });
         }
+        
+        setupAnalyser();
+        audioInitialized = true;
+        isPlaying = true;
+        audio.currentTime = 0;
+        
+        // Use a more robust play approach for mobile
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log("✅ Audio started successfully");
+              audioBtn.textContent = "[ stop ]";
+            })
+            .catch((e) => {
+              console.error("❌ Audio play failed:", e);
+              console.error("🔍 Error details:", e.message);
+              audioBtn.textContent = "[ audio failed ]";
+              isPlaying = false;
+              
+              // Try alternative approach for mobile
+              if (e.name === 'NotAllowedError') {
+                console.log("🔄 Trying alternative mobile audio approach...");
+                // For some mobile browsers, we need to wait for user gesture
+                setTimeout(() => {
+                  audio.play().catch(e2 => {
+                    console.error("❌ Alternative audio approach also failed:", e2);
+                  });
+                }, 100);
+              }
+            });
+        }
+        
+        // Remove event listeners after first successful interaction
         document.removeEventListener("click", startAudioOnce);
         document.removeEventListener("keydown", startAudioOnce);
         document.removeEventListener("touchstart", startAudioOnce);
@@ -586,7 +796,24 @@
       // Initialize button state
       audioBtn.textContent = "[ play ]";
 
+             // Add audio event listeners to keep state in sync
+       audio.addEventListener("play", () => {
+         isPlaying = true;
+         audioBtn.textContent = "[ stop ]";
+         console.log("🎵 Audio play event - button updated to stop");
+       });
 
+       audio.addEventListener("pause", () => {
+         isPlaying = false;
+         audioBtn.textContent = "[ play ]";
+         console.log("🎵 Audio pause event - button updated to play");
+       });
+
+       audio.addEventListener("ended", () => {
+         isPlaying = false;
+         audioBtn.textContent = "[ play ]";
+         console.log("🎵 Audio ended event - button updated to play");
+       });
 
       const waterSettings = {
         resolution: 256,
@@ -668,7 +895,7 @@
             ctx.textBaseline = "middle";
 
             const paragraphText =
-              "Site under maintenance.\nDhani is either charting a nebula in the ByteVerse or wrestling a dragon bug.\nCheck back once he re-establishes contact with Earth.\nUntil then, beam a message from below, Mission Control is listening.";
+              "Site under maintenance.\nDhani is either charting a nebula in the ByteVerse or wrestling a dragon disguised as a deadline.\nCheck back once he re-establishes contact with Earth.\nUntil then, beam a message from below, Mission Control is listening.";
 
             const paragraphLines = paragraphText.split("\n");
             const lineHeight = fontSize * 1.5;
@@ -1503,6 +1730,10 @@
 
       function onTouchMove(event) {
         event.preventDefault();
+        event.stopPropagation();
+        
+        if (event.touches.length === 0) return;
+        
         const rect = renderer.domElement.getBoundingClientRect();
         const touch = event.touches[0];
         const x = touch.clientX - rect.left;
@@ -1537,10 +1768,18 @@
 
       function onTouchStart(event) {
         event.preventDefault();
+        event.stopPropagation();
+        
+        if (event.touches.length === 0) return;
+        
         const rect = renderer.domElement.getBoundingClientRect();
         const touch = event.touches[0];
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
+
+        // Set initial position for touch tracking
+        lastMousePosition.x = x;
+        lastMousePosition.y = y;
 
         addRipple(x, y, waterSettings.clickIntensity);
 
@@ -1550,10 +1789,17 @@
         material.uniforms.u_ripple_time.value = clock.getElapsedTime();
       }
 
+      function onTouchEnd(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        // Reset touch state if needed
+      }
+
       window.addEventListener("mousemove", onMouseMove);
       window.addEventListener("click", onMouseClick);
       window.addEventListener("touchmove", onTouchMove, { passive: false });
       window.addEventListener("touchstart", onTouchStart, { passive: false });
+      window.addEventListener("touchend", onTouchEnd, { passive: false });
 
       const clock = new THREE.Clock();
 
@@ -1566,61 +1812,125 @@
         renderer.render(scene, camera);
       }
 
-      audioBtn.addEventListener("click", () => {
-        console.log("🎵 Play button clicked, isPlaying:", isPlaying);
+      // Enhanced mobile-friendly audio button handling
+      audioBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("🎵 Play button clicked, isPlaying:", isPlaying, "audioInitialized:", audioInitialized);
         handleAudioToggle();
       });
 
-      // Add touch support for mobile
+      // Improved touch support for mobile
       audioBtn.addEventListener("touchstart", (e) => {
         e.preventDefault(); // Prevent double-triggering
-        console.log("🎵 Play button touched, isPlaying:", isPlaying);
+        e.stopPropagation();
+        console.log("🎵 Play button touched, isPlaying:", isPlaying, "audioInitialized:", audioInitialized);
         handleAudioToggle();
+      }, { passive: false });
+
+      // Add mousedown event for better mobile responsiveness
+      audioBtn.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
       });
 
-      function handleAudioToggle() {
-        if (!isPlaying) {
-          console.log("🔄 Attempting to play audio...");
-          setupAnalyser();
-          audio
-            .play()
-            .then(() => {
-              console.log("✅ Audio started successfully");
-              isPlaying = true;
-              audioBtn.textContent = "[ stop ]";
-            })
-            .catch((e) => {
-              console.error("❌ Audio play failed:", e);
-              console.error("🔍 Error details:", e.message);
-              audioBtn.textContent = "[ audio failed ]";
-              isPlaying = false;
-            });
-        } else {
-          console.log("⏸️ Stopping audio...");
-          audio.pause();
-          audio.currentTime = 0;
-          isPlaying = false;
-          audioBtn.textContent = "[ play ]";
-        }
-      }
+             function handleAudioToggle() {
+         console.log("🎵 Audio toggle called, current isPlaying:", isPlaying);
+         
+         if (!isPlaying) {
+           console.log("🔄 Attempting to play audio...");
+           
+           // Ensure audio context is resumed for mobile
+           if (audioContext && audioContext.state === "suspended") {
+             audioContext.resume().then(() => {
+               console.log("✅ Audio context resumed for play");
+             }).catch(e => {
+               console.warn("Audio context resume failed:", e);
+             });
+           }
+           
+           setupAnalyser();
+           
+           // Use a more robust play approach for mobile
+           const playPromise = audio.play();
+           
+           if (playPromise !== undefined) {
+             playPromise
+               .then(() => {
+                 console.log("✅ Audio started successfully");
+                 isPlaying = true;
+                 audioBtn.textContent = "[ stop ]";
+                 console.log("🎵 Button text updated to stop, isPlaying:", isPlaying);
+               })
+               .catch((e) => {
+                 console.error("❌ Audio play failed:", e);
+                 console.error("🔍 Error details:", e.message);
+                 audioBtn.textContent = "[ audio failed ]";
+                 isPlaying = false;
+                 
+                 // Try alternative approach for mobile browsers
+                 if (e.name === 'NotAllowedError' || e.name === 'NotSupportedError') {
+                   console.log("🔄 Trying alternative mobile audio approach...");
+                   setTimeout(() => {
+                     audio.play().catch(e2 => {
+                       console.error("❌ Alternative audio approach also failed:", e2);
+                     });
+                   }, 200);
+                 }
+               });
+           }
+         } else {
+           console.log("⏸️ Stopping audio...");
+           audio.pause();
+           audio.currentTime = 0;
+           isPlaying = false;
+           audioBtn.textContent = "[ play ]";
+           console.log("🎵 Button text updated to play, isPlaying:", isPlaying);
+         }
+       }
 
       function onWindowResize() {
         const width = window.innerWidth;
         const height = window.innerHeight;
         const currentPixelRatio = Math.min(window.devicePixelRatio, 2);
 
+        // Ensure canvas fits properly on mobile
         renderer.setSize(width, height);
         renderer.setPixelRatio(currentPixelRatio);
+
+        // Update camera aspect ratio for mobile
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
 
         material.uniforms.u_resolution.value.set(
           width * currentPixelRatio,
           height * currentPixelRatio
         );
 
+        // Recreate logo texture with new dimensions
         setupLogoTexture();
+        
+        console.log("📱 Window resized to:", width, "x", height, "pixel ratio:", currentPixelRatio);
       }
 
       window.addEventListener("resize", onWindowResize);
+      
+      // Handle mobile orientation changes
+      window.addEventListener("orientationchange", () => {
+        setTimeout(() => {
+          onWindowResize();
+        }, 100);
+      });
+
+      // Prevent zoom on double tap for mobile
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
 
       updateCoordinates();
       setupLogoTexture();
