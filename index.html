@@ -142,6 +142,96 @@
         100% { left: -100%; }
       }
 
+      /* Mobile controls styling */
+      .mobile-controls {
+        display: none;
+        gap: 0.25rem;
+        margin-top: 0.25rem;
+        justify-content: center;
+      }
+
+      .mobile-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.6rem;
+        min-width: 36px;
+        min-height: 32px;
+        transition: all var(--transition-fast);
+      }
+
+      .mobile-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .mobile-btn:active {
+        transform: scale(0.95);
+      }
+
+      .mobile-hint {
+        display: none;
+        font-size: 0.5rem;
+        opacity: 0.6;
+        text-align: center;
+        margin-top: 0.25rem;
+        font-style: italic;
+      }
+
+      .desktop-hint {
+        display: block;
+      }
+
+      .mobile-hint-text {
+        display: none;
+      }
+
+      .volume-control {
+        display: none;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+
+      .volume-slider {
+        width: 80px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 1.5px;
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0 auto;
+      }
+
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .volume-slider::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .volume-label {
+        display: block;
+        font-size: 0.5rem;
+        opacity: 0.7;
+        margin-top: 0.25rem;
+      }
+
       button {
         background: none;
         color: var(--color-text);
@@ -214,6 +304,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .nav-links a:hover,
@@ -317,17 +410,45 @@
           font-size: 0.5rem;
         }
 
+        .mobile-controls {
+          display: flex !important;
+        }
+
+        .mobile-hint {
+          display: block !important;
+        }
+
+        .desktop-hint {
+          display: none !important;
+        }
+
+        .mobile-hint-text {
+          display: block !important;
+        }
+
+        .volume-control {
+          display: block !important;
+        }
+
         .nav-links {
           top: 0.5rem;
           font-size: 0.625rem;
           width: 100%;
           padding: 0 0.5rem;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.25rem;
         }
 
         .nav-links a {
-          margin: 0 0.25rem;
+          margin: 0;
           font-size: 0.5rem;
-          padding: 0.5rem;
+          padding: 0.5rem 0.25rem;
+          white-space: nowrap;
+          text-align: center;
+          min-width: auto;
+          flex-shrink: 0;
         }
 
         .help-hint {
@@ -335,24 +456,32 @@
           font-size: 0.5rem;
           padding: 0 0.5rem;
           line-height: 1.3;
+          max-width: 90vw;
+          word-wrap: break-word;
         }
 
         .coordinates {
           font-size: 0.5rem;
           bottom: 0.75rem;
           padding: 0 0.5rem;
+          max-width: 90vw;
+          word-wrap: break-word;
         }
 
         .social-links {
           font-size: 0.5rem;
           bottom: 0.75rem;
           right: 0.5rem;
+          max-width: 30vw;
         }
 
         .social-links a {
           margin-bottom: 0.25rem;
           padding: 0.25rem;
           font-size: 0.5rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .tp-dfwv {
@@ -375,25 +504,161 @@
 
         .nav-links {
           font-size: 0.5rem;
+          top: 0.25rem;
+          padding: 0 0.25rem;
+          gap: 0.125rem;
         }
 
         .nav-links a {
-          margin: 0 0.125rem;
+          margin: 0;
           font-size: 0.45rem;
+          padding: 0.25rem 0.125rem;
+          min-width: auto;
         }
 
         .help-hint {
           font-size: 0.45rem;
           bottom: 2rem;
+          padding: 0 0.25rem;
+          max-width: 95vw;
+        }
+
+        .coordinates {
+          font-size: 0.45rem;
+          padding: 0 0.25rem;
+          max-width: 95vw;
+        }
+
+        .social-links {
+          font-size: 0.45rem;
+          right: 0.25rem;
+          max-width: 35vw;
+        }
+
+        .social-links a {
+          font-size: 0.45rem;
+          padding: 0.125rem;
         }
 
         .controls {
           width: 120px;
+          right: 0.25rem;
         }
 
         .track-info {
           width: 120px;
           font-size: 0.45rem;
+        }
+
+        .mobile-controls {
+          display: flex !important;
+          gap: 0.25rem;
+        }
+
+        .mobile-btn {
+          font-size: 0.6rem;
+          padding: 0.25rem;
+          min-width: 36px;
+          min-height: 32px;
+        }
+
+        .mobile-hint {
+          display: block !important;
+          font-size: 0.4rem;
+        }
+
+        .volume-control {
+          display: block !important;
+          margin-top: 0.25rem;
+        }
+
+        .volume-slider {
+          width: 60px;
+        }
+
+        .volume-label {
+          font-size: 0.4rem;
+          margin-top: 0.125rem;
+        }
+
+        .desktop-hint {
+          display: none !important;
+        }
+
+        .mobile-hint-text {
+          display: block !important;
+        }
+
+        .brand {
+          top: 0.25rem;
+          left: 0.25rem;
+        }
+      }
+
+      /* Extra small mobile devices (iPhone SE, etc.) */
+      @media (max-width: 375px) {
+        .logo-text {
+          font-size: 0.875rem;
+        }
+
+        .nav-links {
+          font-size: 0.4rem;
+          top: 0.125rem;
+          padding: 0 0.125rem;
+          gap: 0.0625rem;
+        }
+
+        .nav-links a {
+          font-size: 0.4rem;
+          padding: 0.125rem 0.0625rem;
+        }
+
+        .help-hint {
+          font-size: 0.4rem;
+          bottom: 1.5rem;
+          padding: 0 0.125rem;
+          max-width: 98vw;
+        }
+
+        .coordinates {
+          font-size: 0.4rem;
+          bottom: 0.5rem;
+          padding: 0 0.125rem;
+          max-width: 98vw;
+        }
+
+        .social-links {
+          font-size: 0.4rem;
+          bottom: 0.5rem;
+          right: 0.125rem;
+          max-width: 40vw;
+        }
+
+        .social-links a {
+          font-size: 0.4rem;
+          padding: 0.0625rem;
+          margin-bottom: 0.125rem;
+        }
+
+        .controls {
+          width: 100px;
+          right: 0.125rem;
+          top: 0.125rem;
+        }
+
+        .track-info {
+          width: 100px;
+          font-size: 0.4rem;
+        }
+
+        .brand {
+          top: 0.125rem;
+          left: 0.125rem;
+        }
+
+        button {
+          font-size: 0.5rem;
+          padding: 0.5rem;
         }
       }
 
@@ -404,26 +669,62 @@
           left: 0.25rem;
         }
 
+        .logo-text {
+          font-size: 1rem;
+        }
+
         .controls {
           top: 0.25rem;
           right: 0.25rem;
+          width: 120px;
+        }
+
+        .track-info {
+          width: 120px;
+          font-size: 0.45rem;
         }
 
         .nav-links {
           top: 0.25rem;
+          font-size: 0.5rem;
+          padding: 0 0.25rem;
+          gap: 0.125rem;
+        }
+
+        .nav-links a {
+          font-size: 0.45rem;
+          padding: 0.25rem 0.125rem;
         }
 
         .help-hint {
           bottom: 1.5rem;
+          font-size: 0.45rem;
+          padding: 0 0.25rem;
+          max-width: 90vw;
         }
 
         .coordinates {
           bottom: 0.5rem;
+          font-size: 0.45rem;
+          padding: 0 0.25rem;
+          max-width: 90vw;
         }
 
         .social-links {
           bottom: 0.5rem;
           right: 0.25rem;
+          font-size: 0.45rem;
+          max-width: 30vw;
+        }
+
+        .social-links a {
+          font-size: 0.45rem;
+          padding: 0.125rem;
+        }
+
+        button {
+          font-size: 0.5rem;
+          padding: 0.5rem;
         }
       }
     </style>
@@ -438,8 +739,17 @@
       <section class="controls" id="controls">
         <div class="audio-controls">
           <button id="audioBtn" type="button" aria-label="Play audio">[ play ]</button>
+          <div class="mobile-controls" id="mobileControls">
+            <button id="prevBtn" type="button" aria-label="Previous track" class="mobile-btn">[ ◀ ]</button>
+            <button id="nextBtn" type="button" aria-label="Next track" class="mobile-btn">[ ▶ ]</button>
+          </div>
         </div>
         <div id="trackInfo" class="track-info"></div>
+        <div class="mobile-hint" id="mobileHint">Swipe left/right to change tracks</div>
+        <div class="volume-control" id="volumeControl">
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" aria-label="Volume control">
+          <span class="volume-label">Volume</span>
+        </div>
       </section>
 
       <nav class="nav-links" role="navigation" aria-label="Main navigation">
@@ -447,11 +757,12 @@
         <a href="#" aria-label="Gallery page">-</a>
         <a href="#" aria-label="About page">Unavailable</a>
        <a href="#" aria-label="Gallery page">-</a>        
-<a href="#" aria-label="Contact page">Synchronizing Incomplete</a>
+<a href="#" aria-label="Contact page">Synchronization Incomplete</a>
       </nav>
 
       <aside class="help-hint" id="helpHint" role="complementary">
-        Press 'D' for controls • 'K' to cycle themes • 'T' to cycle tracks
+        <span class="desktop-hint">Press 'D' for controls • 'K' to cycle themes • 'T' to cycle tracks</span>
+        <span class="mobile-hint-text">Swipe left/right to change tracks • Tap controls for options</span>
       </aside>
 
       <footer class="page-footer">
@@ -481,6 +792,15 @@
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
       const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+      
+      // Touch gesture variables
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchEndX = 0;
+      let touchEndY = 0;
+      let isSwiping = false;
+      let swipeThreshold = 50; // Minimum distance for swipe
+      let swipeTimeout = null;
 
       // Mobile performance settings
       const mobileSettings = {
@@ -617,6 +937,11 @@
             dataArray = new Uint8Array(bufferLength);
             source.connect(analyser);
             analyser.connect(audioContext.destination);
+            
+            // Mobile-specific audio context handling
+            if (isMobile && audioContext.state === "suspended") {
+              console.log("📱 Mobile: Audio context suspended, will resume on user interaction");
+            }
           }
           return analyser;
         } catch (e) {
@@ -624,6 +949,20 @@
           analyser = null;
           dataArray = null;
           return null;
+        }
+      }
+
+      // Mobile-specific audio initialization
+      function initializeMobileAudio() {
+        if (isMobile && !audioContext) {
+          console.log("📱 Initializing mobile audio context");
+          setupAnalyser();
+          
+          // Set up mobile-specific audio settings
+          audio.autoplay = false;
+          audio.muted = false;
+          audio.playsInline = true;
+          audio.preload = "metadata";
         }
       }
 
@@ -682,6 +1021,7 @@
         document.removeEventListener("click", startAudioOnce);
         document.removeEventListener("keydown", startAudioOnce);
         document.removeEventListener("touchstart", startAudioOnce);
+        document.removeEventListener("touchend", startAudioOnce);
       }
 
       // Register one-time listeners with mobile support
@@ -689,6 +1029,8 @@
       document.addEventListener("keydown", startAudioOnce, { once: true });
       if (isMobile) {
         document.addEventListener("touchstart", startAudioOnce, { once: true });
+        // Additional mobile audio initialization
+        document.addEventListener("touchend", startAudioOnce, { once: true });
       }
 
       // Initialize button state
@@ -760,29 +1102,74 @@
           const img = new Image();
           img.crossOrigin = "anonymous";
           img.onload = () => {
-            const logoSize = Math.max(180, Math.min(360, width * 0.18));
+            // Mobile-optimized logo sizing
+            const isMobile = width < 768;
+            const logoSize = isMobile 
+              ? Math.max(120, Math.min(240, width * 0.15))
+              : Math.max(180, Math.min(360, width * 0.18));
+            
             const x = width / 2 - logoSize / 2;
-            const y = height / 2 - logoSize / 2 - 100;
+            const y = height / 2 - logoSize / 2 - (isMobile ? 60 : 100);
 
             ctx.drawImage(img, x, y, logoSize, logoSize);
 
-            const scale = Math.max(0.4, Math.min(1.2, width / 1920));
-            const fontSize = Math.max(16, Math.min(28, 22 * scale));
-            const textY = y + logoSize + 60;
+            // Mobile-optimized text sizing
+            const scale = isMobile 
+              ? Math.max(0.3, Math.min(0.8, width / 1920))
+              : Math.max(0.4, Math.min(1.2, width / 1920));
+            
+            const fontSize = isMobile 
+              ? Math.max(12, Math.min(18, 16 * scale))
+              : Math.max(16, Math.min(28, 22 * scale));
+            
+            const textY = y + logoSize + (isMobile ? 40 : 60);
 
             ctx.font = `400 ${fontSize}px "GT Standard", Arial, sans-serif`;
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+            
+            // Improve text rendering quality
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
 
             const paragraphText =
   "Site under maintenance.\nSystems calibrating telemetry and attaching modules to the mothership.\nDhani is locked in close-quarters combat with edge-case bugs.\nTransmit your coordinates below; we’ll navigate back to you.";
 
             const paragraphLines = paragraphText.split("\n");
-            const lineHeight = fontSize * 1.5;
+            const lineHeight = fontSize * (isMobile ? 1.3 : 1.5);
+            
+            // Mobile text wrapping for very long lines
+            const maxLineWidth = isMobile ? width * 0.85 : width * 0.75;
+            
             paragraphLines.forEach((line, index) => {
               const y = textY + index * lineHeight;
-              ctx.fillText(line, width / 2, y);
+              
+              // Improved text rendering with better spacing
+              ctx.textBaseline = "top";
+              
+              // Simple word wrapping for mobile
+              if (isMobile && ctx.measureText(line).width > maxLineWidth) {
+                const words = line.split(' ');
+                let currentLine = '';
+                let lineCount = 0;
+                
+                for (let word of words) {
+                  const testLine = currentLine + word + ' ';
+                  if (ctx.measureText(testLine).width > maxLineWidth && currentLine !== '') {
+                    ctx.fillText(currentLine, width / 2, y + lineCount * lineHeight);
+                    currentLine = word + ' ';
+                    lineCount++;
+                  } else {
+                    currentLine = testLine;
+                  }
+                }
+                if (currentLine) {
+                  ctx.fillText(currentLine, width / 2, y + lineCount * lineHeight);
+                }
+              } else {
+                ctx.fillText(line, width / 2, y);
+              }
             });
 
             resolve(canvas);
@@ -1496,6 +1883,155 @@
         }
       }
 
+      // Touch gesture functions for mobile
+      function handleTouchStart(event) {
+        if (!isMobile) return;
+        
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        isSwiping = false;
+        
+        // Clear any existing timeout
+        if (swipeTimeout) {
+          clearTimeout(swipeTimeout);
+          swipeTimeout = null;
+        }
+      }
+
+      function handleTouchMove(event) {
+        if (!isMobile) return;
+        
+        const touch = event.touches[0];
+        touchEndX = touch.clientX;
+        touchEndY = touch.clientY;
+        
+        const deltaX = Math.abs(touchEndX - touchStartX);
+        const deltaY = Math.abs(touchEndY - touchStartY);
+        
+        // Check if this is a horizontal swipe
+        if (deltaX > deltaY && deltaX > 10) {
+          isSwiping = true;
+          event.preventDefault(); // Prevent default scrolling during swipe
+        }
+      }
+
+      function handleTouchEnd(event) {
+        if (!isMobile || !isSwiping) return;
+        
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = Math.abs(touchEndY - touchStartY);
+        
+        // Ensure it's a horizontal swipe and meets threshold
+        if (Math.abs(deltaX) > swipeThreshold && deltaY < swipeThreshold) {
+          if (deltaX > 0) {
+            // Swipe right - previous track
+            cycleTrackBackwardWithFeedback();
+          } else {
+            // Swipe left - next track
+            cycleTrackWithFeedback();
+          }
+        }
+        
+        isSwiping = false;
+      }
+
+      function cycleTrackBackward() {
+        currentTrackIndex = (currentTrackIndex - 1 + audioTracks.length) % audioTracks.length;
+        const newTrack = audioTracks[currentTrackIndex];
+        audio.src = newTrack;
+        audio.load();
+        console.log("🎵 Switched to previous track:", getTrackName(newTrack));
+        console.log("📊 Track", currentTrackIndex + 1, "of", audioTracks.length);
+        
+        updateTrackInfo();
+        
+        if (isPlaying) {
+          audio.play().catch(e => console.log("Track switch play failed:", e));
+        }
+      }
+
+      // Volume control with touch gestures
+      let volumeStartY = 0;
+      let initialVolume = 0.5;
+
+      function handleVolumeTouchStart(event) {
+        if (!isMobile) return;
+        
+        const touch = event.touches[0];
+        volumeStartY = touch.clientY;
+        initialVolume = audio.volume;
+      }
+
+      function handleVolumeTouchMove(event) {
+        if (!isMobile) return;
+        
+        const touch = event.touches[0];
+        const deltaY = volumeStartY - touch.clientY;
+        const volumeChange = deltaY / 200; // Adjust sensitivity
+        const newVolume = Math.max(0, Math.min(1, initialVolume + volumeChange));
+        
+        audio.volume = newVolume;
+        settings.audioVolume = newVolume;
+        
+        // Update volume display if it exists
+        if (window.volumeBinding) {
+          window.volumeBinding.refresh();
+        }
+      }
+
+      // Visual feedback for swipe gestures
+      function showSwipeFeedback(direction) {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(255, 255, 255, 0.9);
+          color: #000;
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          font-size: 1.2rem;
+          font-weight: bold;
+          z-index: 10000;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        `;
+        
+        feedback.textContent = direction === 'left' ? '▶ Next Track' : '◀ Previous Track';
+        document.body.appendChild(feedback);
+        
+        // Fade in
+        setTimeout(() => {
+          feedback.style.opacity = '1';
+        }, 10);
+        
+        // Fade out and remove
+        setTimeout(() => {
+          feedback.style.opacity = '0';
+          setTimeout(() => {
+            document.body.removeChild(feedback);
+          }, 300);
+        }, 1000);
+      }
+
+      // Enhanced track switching with visual feedback
+      function cycleTrackWithFeedback() {
+        cycleTrack();
+        if (isMobile) {
+          showSwipeFeedback('left');
+        }
+      }
+
+      function cycleTrackBackwardWithFeedback() {
+        cycleTrackBackward();
+        if (isMobile) {
+          showSwipeFeedback('right');
+        }
+      }
+
       document.addEventListener("keydown", (event) => {
         if (event.key.toLowerCase() === "d") {
           togglePanel();
@@ -1665,6 +2201,29 @@
       window.addEventListener("touchmove", onTouchMove, { passive: false });
       window.addEventListener("touchstart", onTouchStart, { passive: false });
 
+      // Add touch gesture listeners for mobile
+      if (isMobile) {
+        window.addEventListener("touchstart", handleTouchStart, { passive: true });
+        window.addEventListener("touchmove", handleTouchMove, { passive: false });
+        window.addEventListener("touchend", handleTouchEnd, { passive: true });
+        
+        // Volume control area (right side of screen)
+        window.addEventListener("touchstart", handleVolumeTouchStart, { passive: true });
+        window.addEventListener("touchmove", handleVolumeTouchMove, { passive: false });
+        
+        // Mobile audio button touch handling
+        const audioBtn = document.getElementById("audioBtn");
+        if (audioBtn) {
+          audioBtn.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            // Ensure audio context is ready
+            if (!audioContext) {
+              initializeMobileAudio();
+            }
+          }, { passive: false });
+        }
+      }
+
       const clock = new THREE.Clock();
       let lastFrameTime = 0;
 
@@ -1693,7 +2252,11 @@
         
         if (!isPlaying) {
           console.log("🔄 Attempting to play audio...");
-          setupAnalyser();
+          
+          // Ensure audio context is set up for mobile
+          if (isMobile && !audioContext) {
+            setupAnalyser();
+          }
           
           const playPromise = audio.play();
           
@@ -1742,6 +2305,37 @@
         }
       });
 
+      // Mobile control button event listeners
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          cycleTrackBackwardWithFeedback();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          cycleTrackWithFeedback();
+        });
+      }
+
+      // Volume slider event listener
+      const volumeSlider = document.getElementById("volumeSlider");
+      if (volumeSlider) {
+        volumeSlider.addEventListener("input", (e) => {
+          const volume = e.target.value / 100;
+          audio.volume = volume;
+          settings.audioVolume = volume;
+          
+          // Update volume display if it exists
+          if (window.volumeBinding) {
+            window.volumeBinding.refresh();
+          }
+        });
+      }
+
       function onWindowResize() {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -1762,6 +2356,12 @@
 
       updateCoordinates();
       setupLogoTexture();
+      
+      // Initialize mobile audio if needed
+      if (isMobile) {
+        initializeMobileAudio();
+      }
+      
       animate();
 
       material.uniforms.u_ripple_strength.value = settings.rippleStrength;
