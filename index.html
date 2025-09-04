@@ -348,28 +348,22 @@
         opacity: 0.7;
         text-align: center;
         z-index: var(--z-modal);
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
+        white-space: nowrap;
         max-width: 90vw;
       }
 
       .social-links a {
-        display: flex;
+        display: inline-block;
         color: var(--color-text);
         text-decoration: none;
         transition: opacity var(--transition-fast);
-        padding: 0.5rem 0.75rem;
+        padding: 0.25rem 0.5rem;
         min-height: 44px;
         min-width: 44px;
         align-items: center;
         justify-content: center;
         touch-action: manipulation;
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
         white-space: nowrap;
       }
 
@@ -491,7 +485,6 @@
           padding: 0.25rem 0.5rem;
           font-size: 0.5rem;
           white-space: nowrap;
-          min-width: 40px;
         }
 
         .tp-dfwv {
@@ -542,7 +535,6 @@
 
         .social-links {
           font-size: 0.45rem;
-          gap: 0.25rem;
           max-width: 95vw;
           opacity: 0.9;
         }
@@ -550,7 +542,6 @@
         .social-links a {
           font-size: 0.45rem;
           padding: 0.125rem 0.25rem;
-          min-width: 35px;
         }
 
         .controls {
@@ -641,7 +632,6 @@
         .social-links {
           font-size: 0.4rem;
           bottom: 0.5rem;
-          gap: 0.125rem;
           max-width: 95vw;
           opacity: 0.9;
         }
@@ -649,7 +639,6 @@
         .social-links a {
           font-size: 0.4rem;
           padding: 0.0625rem 0.125rem;
-          min-width: 30px;
         }
 
         .controls {
@@ -724,7 +713,6 @@
 
         .social-links {
           bottom: 0.5rem;
-          gap: 0.25rem;
           font-size: 0.45rem;
           max-width: 95vw;
           opacity: 0.9;
@@ -733,7 +721,6 @@
         .social-links a {
           font-size: 0.45rem;
           padding: 0.125rem 0.25rem;
-          min-width: 35px;
         }
 
         button {
@@ -810,16 +797,16 @@
           const socialLinks = document.querySelectorAll('.social-links a');
           socialLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-              e.preventDefault();
               const url = this.href;
               
               // For mailto links, use the default behavior
               if (url.startsWith('mailto:')) {
-                window.location.href = url;
+                // Don't prevent default for mailto links
                 return;
               }
               
-              // For other links, open in new tab/window
+              // For other links, prevent default and open in new tab
+              e.preventDefault();
               try {
                 window.open(url, '_blank', 'noopener,noreferrer');
               } catch (error) {
@@ -1178,12 +1165,12 @@
               ? Math.max(12, Math.min(18, 16 * scale))
               : Math.max(16, Math.min(28, 22 * scale));
             
-            const textY = y + logoSize + (isMobile ? 40 : 60);
+            const textY = y + logoSize + (isMobile ? 50 : 70);
 
             ctx.font = `400 ${fontSize}px "GT Standard", Arial, sans-serif`;
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
+            ctx.textBaseline = "top";
             
             // Improve text rendering quality
             ctx.imageSmoothingEnabled = true;
@@ -1193,38 +1180,40 @@
   "Site under maintenance.\nSystems calibrating telemetry and attaching modules to the mothership.\nDhani is locked in close-quarters combat with edge-case bugs.\nTransmit your coordinates below; we'll navigate back to you.";
 
             const paragraphLines = paragraphText.split("\n");
-            const lineHeight = fontSize * (isMobile ? 1.3 : 1.5);
+            const lineHeight = fontSize * (isMobile ? 1.5 : 1.7);
             
-            // Mobile text wrapping for very long lines
-            const maxLineWidth = isMobile ? width * 0.85 : width * 0.75;
+            // Improved text wrapping for all devices
+            const maxLineWidth = isMobile ? width * 0.8 : width * 0.7;
             
-            paragraphLines.forEach((line, index) => {
-              const y = textY + index * lineHeight;
-              
-              // Improved text rendering with better spacing
-              ctx.textBaseline = "top";
-              
-              // Simple word wrapping for mobile
-              if (isMobile && ctx.measureText(line).width > maxLineWidth) {
+            let currentY = textY;
+            
+            paragraphLines.forEach((line) => {
+              // Check if line needs wrapping
+              if (ctx.measureText(line).width > maxLineWidth) {
+                // Word wrap the line
                 const words = line.split(' ');
                 let currentLine = '';
-                let lineCount = 0;
                 
                 for (let word of words) {
                   const testLine = currentLine + word + ' ';
                   if (ctx.measureText(testLine).width > maxLineWidth && currentLine !== '') {
-                    ctx.fillText(currentLine, width / 2, y + lineCount * lineHeight);
+                    // Draw current line and start new line
+                    ctx.fillText(currentLine.trim(), width / 2, currentY);
+                    currentY += lineHeight;
                     currentLine = word + ' ';
-                    lineCount++;
                   } else {
                     currentLine = testLine;
                   }
                 }
-                if (currentLine) {
-                  ctx.fillText(currentLine, width / 2, y + lineCount * lineHeight);
+                // Draw the last line
+                if (currentLine.trim()) {
+                  ctx.fillText(currentLine.trim(), width / 2, currentY);
+                  currentY += lineHeight;
                 }
               } else {
-                ctx.fillText(line, width / 2, y);
+                // Draw single line
+                ctx.fillText(line, width / 2, currentY);
+                currentY += lineHeight;
               }
             });
 
