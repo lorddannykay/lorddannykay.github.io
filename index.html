@@ -290,23 +290,25 @@
         z-index: var(--z-modal);
         opacity: 0.8;
         text-align: center;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
       }
 
       .nav-links a {
-        display: inline-block;
+        display: flex;
         color: var(--color-text);
         text-decoration: none;
-        margin: 0 0.9375rem;
         transition: opacity var(--transition-fast);
-        padding: 0.25rem;
+        padding: 0.5rem 0.75rem;
         min-height: 44px;
         min-width: 44px;
-        display: flex;
         align-items: center;
         justify-content: center;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
 
       .nav-links a:hover,
@@ -325,7 +327,7 @@
 
       .coordinates {
         position: absolute;
-        bottom: calc(var(--spacing-lg) + 3rem);
+        bottom: var(--spacing-lg);
         left: 50%;
         transform: translateX(-50%);
         color: var(--color-text);
@@ -337,45 +339,10 @@
         padding: 0 var(--spacing-lg);
       }
 
-      .social-links {
-        position: absolute;
-        bottom: var(--spacing-lg);
-        left: 50%;
-        transform: translateX(-50%);
-        color: var(--color-text);
-        font-size: 0.6875rem;
-        text-transform: uppercase;
-        opacity: 0.7;
-        text-align: center;
-        z-index: var(--z-modal);
-        white-space: nowrap;
-        max-width: 90vw;
-      }
-
-      .social-links a {
-        display: inline-block;
-        color: var(--color-text);
-        text-decoration: none;
-        transition: opacity var(--transition-fast);
-        padding: 0.25rem 0.5rem;
-        min-height: 44px;
-        min-width: 44px;
-        align-items: center;
-        justify-content: center;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-        white-space: nowrap;
-      }
-
-      .social-links a:hover,
-      .social-links a:focus-visible {
-        opacity: 0.5;
-        outline: none;
-      }
 
       .help-hint {
         position: absolute;
-        bottom: var(--spacing-xl);
+        bottom: calc(var(--spacing-lg) + 3rem);
         left: 50%;
         transform: translateX(-50%);
         color: var(--color-text);
@@ -447,9 +414,8 @@
         }
 
         .nav-links a {
-          margin: 0;
           font-size: 0.5rem;
-          padding: 0.5rem 0.25rem;
+          padding: 0.25rem 0.5rem;
           white-space: nowrap;
           text-align: center;
           min-width: auto;
@@ -473,19 +439,6 @@
           word-wrap: break-word;
         }
 
-        .social-links {
-          font-size: 0.5rem;
-          bottom: 0.75rem;
-          gap: 0.5rem;
-          max-width: 95vw;
-          opacity: 0.8;
-        }
-
-        .social-links a {
-          padding: 0.25rem 0.5rem;
-          font-size: 0.5rem;
-          white-space: nowrap;
-        }
 
         .tp-dfwv {
           top: 2rem !important;
@@ -513,9 +466,8 @@
         }
 
         .nav-links a {
-          margin: 0;
           font-size: 0.45rem;
-          padding: 0.25rem 0.125rem;
+          padding: 0.25rem 0.5rem;
           min-width: auto;
         }
 
@@ -533,16 +485,6 @@
           max-width: 95vw;
         }
 
-        .social-links {
-          font-size: 0.45rem;
-          max-width: 95vw;
-          opacity: 0.9;
-        }
-
-        .social-links a {
-          font-size: 0.45rem;
-          padding: 0.125rem 0.25rem;
-        }
 
         .controls {
           width: 120px;
@@ -607,12 +549,12 @@
           font-size: 0.4rem;
           top: 0.125rem;
           padding: 0 0.125rem;
-          gap: 0.0625rem;
+          gap: 0.125rem;
         }
 
         .nav-links a {
           font-size: 0.4rem;
-          padding: 0.125rem 0.0625rem;
+          padding: 0.25rem 0.5rem;
         }
 
         .help-hint {
@@ -694,7 +636,7 @@
 
         .nav-links a {
           font-size: 0.45rem;
-          padding: 0.25rem 0.125rem;
+          padding: 0.25rem 0.5rem;
         }
 
         .help-hint {
@@ -711,17 +653,6 @@
           max-width: 90vw;
         }
 
-        .social-links {
-          bottom: 0.5rem;
-          font-size: 0.45rem;
-          max-width: 95vw;
-          opacity: 0.9;
-        }
-
-        .social-links a {
-          font-size: 0.45rem;
-          padding: 0.125rem 0.25rem;
-        }
 
         button {
           font-size: 0.5rem;
@@ -750,12 +681,12 @@
         </div>
       </section>
 
-      <nav class="nav-links" role="navigation" aria-label="Main navigation">
-        <a href="#" aria-label="Home page">Currently</a>
-        <a href="#" aria-label="Gallery page">-</a>
-        <a href="#" aria-label="About page">Unavailable</a>
-       <a href="#" aria-label="Gallery page">-</a>        
-<a href="#" aria-label="Contact page">Synchronization Incomplete</a>
+      <nav class="nav-links" role="navigation" aria-label="Contact and social links">
+        <a href="mailto:Connect@dhanikeshkarunanithi.com?subject=Let%27s%20Connect&body=Hi%2C%20I%20would%20like%20to%20connect%20with%20you.%20Let%27s%20talk." aria-label="Email to connect" target="_blank" rel="noopener noreferrer">Connect</a>
+        <a href="https://wa.me/4407353865503" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://github.com/lorddannykay" aria-label="View GitHub profile" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.instagram.com/lorddannykay/" aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://in.linkedin.com/in/dhanikesh-karunanithi" aria-label="Connect on LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </nav>
 
       <aside class="help-hint" id="helpHint" role="complementary">
@@ -770,13 +701,6 @@
           </a>
         </div>
 
-        <nav class="social-links" role="navigation" aria-label="Social media links">
-  <a href="mailto:Connect@dhanikeshkarunanithi.com?subject=Let%27s%20Connect&body=Hi%2C%20I%20would%20like%20to%20connect%20with%20you.%20Let%27s%20talk." aria-label="Email to connect" target="_blank" rel="noopener noreferrer">Connect</a>
-  <a href="https://wa.me/4407353865503" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-  <a href="https://github.com/lorddannykay" aria-label="View GitHub profile" target="_blank" rel="noopener noreferrer">GitHub</a>
-  <a href="https://www.instagram.com/lorddannykay/" aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
-  <a href="https://in.linkedin.com/in/dhanikesh-karunanithi" aria-label="Connect on LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-</nav>
 
       </footer>
     </main>
@@ -794,8 +718,8 @@
       // Enhanced mobile link handling
       function setupMobileLinks() {
         if (isMobile) {
-          const socialLinks = document.querySelectorAll('.social-links a');
-          socialLinks.forEach(link => {
+          const navLinks = document.querySelectorAll('.nav-links a');
+          navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
               const url = this.href;
               
