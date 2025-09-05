@@ -437,6 +437,15 @@
           padding: 0 0.5rem;
           max-width: 90vw;
           word-wrap: break-word;
+          z-index: var(--z-modal);
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          color: var(--color-text);
+          text-transform: uppercase;
+          text-align: center;
+          opacity: 0.6;
+          font-family: var(--font-primary);
         }
 
 
@@ -483,6 +492,15 @@
           bottom: 2.5rem;
           padding: 0 0.25rem;
           max-width: 95vw;
+          z-index: var(--z-modal);
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          color: var(--color-text);
+          text-transform: uppercase;
+          text-align: center;
+          opacity: 0.6;
+          font-family: var(--font-primary);
         }
 
 
@@ -569,6 +587,15 @@
           bottom: 2rem;
           padding: 0 0.125rem;
           max-width: 98vw;
+          z-index: var(--z-modal);
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          color: var(--color-text);
+          text-transform: uppercase;
+          text-align: center;
+          opacity: 0.6;
+          font-family: var(--font-primary);
         }
 
         .social-links {
@@ -651,6 +678,15 @@
           font-size: 0.45rem;
           padding: 0 0.25rem;
           max-width: 90vw;
+          z-index: var(--z-modal);
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          color: var(--color-text);
+          text-transform: uppercase;
+          text-align: center;
+          opacity: 0.6;
+          font-family: var(--font-primary);
         }
 
 
@@ -717,29 +753,29 @@
       
       // Enhanced mobile link handling
       function setupMobileLinks() {
-        if (isMobile) {
-          const navLinks = document.querySelectorAll('.nav-links a');
-          navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-              const url = this.href;
-              
-              // For mailto links, use the default behavior
-              if (url.startsWith('mailto:')) {
-                // Don't prevent default for mailto links
-                return;
-              }
-              
-              // For other links, prevent default and open in new tab
-              e.preventDefault();
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            const url = this.href;
+            
+            // For mailto links, use the default behavior
+            if (url.startsWith('mailto:')) {
+              // Don't prevent default for mailto links
+              return;
+            }
+            
+            // For other links, let them open normally but ensure they work on mobile
+            if (isMobile) {
+              // On mobile, try to open in the same tab first, then fallback to new tab
               try {
-                window.open(url, '_blank', 'noopener,noreferrer');
+                // Don't prevent default - let the browser handle it
+                // The target="_blank" in the HTML will handle opening in new tab
               } catch (error) {
-                // Fallback for older browsers
-                window.open(url, '_blank');
+                console.log("Link handling error:", error);
               }
-            });
+            }
           });
-        }
+        });
       }
       
       // Touch gesture variables
@@ -837,6 +873,7 @@
       audio.preload = isMobile ? "metadata" : "auto";
       audio.volume = 0.5;
       audio.crossOrigin = "anonymous";
+      audio.loop = false; // We'll handle looping manually
       
       // Mobile-specific audio settings
       if (isMobile) {
@@ -849,6 +886,7 @@
       audio.addEventListener("error", (e) => {
         console.error("❌ Audio loading failed:", e);
         console.error("🔍 Failed track:", randomTrack);
+        console.error("🔍 Audio error details:", audio.error);
         audioBtn.textContent = "[ audio error ]";
       });
       
@@ -858,6 +896,10 @@
       
       audio.addEventListener("canplay", () => {
         console.log("✅ Audio ready to play:", randomTrack);
+      });
+      
+      audio.addEventListener("loadeddata", () => {
+        console.log("📊 Audio data loaded:", randomTrack);
       });
       
       // Update track info display
@@ -1101,7 +1143,7 @@
             ctx.imageSmoothingQuality = 'high';
 
             const paragraphText =
-  "Site under maintenance.\nSystems calibrating telemetry and attaching modules to the mothership.\nDhani is locked in close-quarters combat with edge-case bugs.\nTransmit your coordinates below; we'll navigate back to you.";
+  "Site under maintenance.\nSystems calibrating telemetry and attaching modules to the mothership.\nDhani is locked in close-quarters combat with edge-case bugs.\nTransmit your coordinates from one of the channels above; we'll navigate back to you.";
 
             const paragraphLines = paragraphText.split("\n");
             const lineHeight = fontSize * (isMobile ? 1.5 : 1.7);
@@ -2270,13 +2312,13 @@
         if (!isPlaying) {
           console.log("🔄 Attempting to play audio...");
           
-          // Ensure audio context is set up for mobile
-          if (isMobile && !audioContext) {
+          // Ensure audio context is set up
+          if (!audioContext) {
             setupAnalyser();
           }
           
-          // For mobile, ensure audio context is resumed
-          if (isMobile && audioContext && audioContext.state === "suspended") {
+          // Ensure audio context is resumed if suspended
+          if (audioContext && audioContext.state === "suspended") {
             audioContext.resume().then(() => {
               console.log("🔊 Audio context resumed");
               attemptPlayAudio();
