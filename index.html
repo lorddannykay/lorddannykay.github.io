@@ -830,9 +830,9 @@
       // Audio tracks configuration - Easy to add new tracks!
       // Just add new entries to this array when you add files to assets/audio/
       const audioTracks = [
-        "assets/audio/switch.mp3",
-        "assets/audio/Take it all.mp3",
-        "assets/audio/Victory Lap.mp3",
+        "assets/audio/Switch.mp3",
+        "assets/audio/FredAgain.mp3",
+        "assets/audio/YellowClaw.mp3",
         // Add new tracks here as you add them to the assets/audio folder
         // Example: "assets/audio/your-new-track.mp3",
       ];
@@ -892,7 +892,6 @@
       audio.src = randomTrack;
       audio.preload = isMobile ? "metadata" : "auto";
       audio.volume = 0.5;
-      audio.crossOrigin = "anonymous";
       audio.loop = false; // We'll handle looping manually
       
       // Mobile-specific audio settings
@@ -944,7 +943,7 @@
 
       // Loop manually if still playing
       audio.addEventListener("ended", () => {
-        if (isPlaying) {
+        if (window.isPlaying) {
           audio.currentTime = 0;
           audio.play().catch(e => console.log("Loop play failed:", e));
         }
@@ -977,8 +976,11 @@
         try {
           if (!audioContext) {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            window.audioContext = audioContext; // Set global reference
             source = audioContext.createMediaElementSource(audio);
+            window.source = source; // Set global reference
             analyser = audioContext.createAnalyser();
+            window.analyser = analyser; // Set global reference
             analyser.fftSize = mobileSettings.fftSize;
             analyser.smoothingTimeConstant = 0.8;
             const bufferLength = analyser.frequencyBinCount;
@@ -1042,87 +1044,64 @@
         }
       }
 
-      // --- Enhanced mobile audio handling ---
-      function startAudioOnce() {
-        console.log("🎵 Starting audio (mobile:", isMobile, ")");
-        
-        // For mobile, ensure user interaction
-        if (isMobile && !audioContext) {
-          console.log("📱 Mobile device detected, setting up audio context");
-        }
-        
-        setupAnalyser();
-        isPlaying = true;
-        audio.currentTime = 0;
-        
-        // Mobile-specific play handling with better error recovery
-        const playAudio = async () => {
-          try {
-            // Ensure audio context is resumed first
-            if (audioContext && audioContext.state === "suspended") {
-              await audioContext.resume();
-              console.log("🔊 Audio context resumed before play");
-            }
-            
-            // Try to play the audio
-            await audio.play();
-            console.log("✅ Audio started successfully");
-            audioBtn.textContent = "[ stop ]";
-            updateMobileAudioStatus();
-            
-          } catch (e) {
-            console.error("❌ Audio play failed:", e);
-            console.error("🔍 Error details:", e.message);
-            
-            // Mobile-specific error handling with retry logic
-            if (isMobile) {
-              if (e.name === 'NotAllowedError') {
-                audioBtn.textContent = "[ tap to play ]";
-                console.log("📱 Mobile: User interaction required - trying alternative approach");
-                
-                // Try unmuting and playing again
-                audio.muted = false;
-                setTimeout(async () => {
-                  try {
-                    await audio.play();
-                    console.log("✅ Audio started on retry");
-                    audioBtn.textContent = "[ stop ]";
-                  } catch (retryError) {
-                    console.error("❌ Retry failed:", retryError);
-                    audioBtn.textContent = "[ tap to play ]";
-                  }
-                }, 100);
-                
-              } else if (e.name === 'NotSupportedError') {
-                audioBtn.textContent = "[ unsupported ]";
-                console.log("📱 Mobile: Audio format not supported");
-              } else {
-                audioBtn.textContent = "[ audio failed ]";
-                console.log("📱 Mobile: Unknown audio error");
-              }
-            } else {
-              audioBtn.textContent = "[ audio failed ]";
-            }
-            
-            isPlaying = false;
-          }
-        };
-        
-        playAudio();
-        
-        document.removeEventListener("click", startAudioOnce);
-        document.removeEventListener("keydown", startAudioOnce);
-        document.removeEventListener("touchstart", startAudioOnce);
-        document.removeEventListener("touchend", startAudioOnce);
-      }
+      // --- Single-gesture, mobile-safe audio start + IG in-app fallback ---
+      // Detect environments
+      const isInstagram = /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent);
+      const controlsEl = document.getElementById('controls');
 
-      // Register one-time listeners with mobile support
-      document.addEventListener("click", startAudioOnce, { once: true });
-      document.addEventListener("keydown", startAudioOnce, { once: true });
-      if (isMobile) {
-        document.addEventListener("touchstart", startAudioOnce, { once: true });
-        // Additional mobile audio initialization
-        document.addEventListener("touchend", startAudioOnce, { once: true });
+      // Optional banner for in-app browsers (Instagram, FB)
+      (function injectIabBanner(){
+        if (!isInstagram) return;
+        const style = document.createElement('style');
+        style.textContent = `
+          .iab-banner{position:fixed;bottom:0;left:0;right:0;padding:.75rem .9rem;background:#0008;color:#fff;
+            backdrop-filter: blur(8px);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Inter,sans-serif;
+            font-size:.9rem;z-index:9999;display:flex;gap:.6rem;align-items:center}
+          .iab-banner button{background:#fff;border:0;border-radius:999px;padding:.4rem .8rem;font-size:.85rem}
+        `;
+        document.head.appendChild(style);
+        const bar = document.createElement('div');
+        bar.className = 'iab-banner';
+        bar.innerHTML = `
+          <span>You're viewing this inside Instagram. For reliable audio, open in your browser.</span>
+          <button id="copyLinkBtn" type="button">Copy link</button>
+        `;
+        document.body.appendChild(bar);
+        document.getElementById('copyLinkBtn')?.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(location.href);
+            alert('Link copied! Open Safari/Chrome and paste to hear audio.');
+          } catch { /* ignore */ }
+        });
+      })();
+
+      // If you kept spaces in filenames, ensure safe URL
+      function setSafeSrc(url){ audio.src = encodeURI(url); }
+
+      // Make sure we only initialize once
+      let audioBootstrapped = false;
+
+      // iOS audio unlock helper — run this once inside a user gesture
+      async function unlockAudioContext() {
+        // If your analyser/AudioContext is created in setupAnalyser(), call it first.
+        if (!window.audioContext) {
+          try { setupAnalyser(); } catch(e) { console.warn('setupAnalyser failed (will retry):', e); }
+        }
+        if (window.audioContext && window.audioContext.state === 'suspended') {
+          try { await window.audioContext.resume(); } catch(e) { /* ignore */ }
+        }
+
+        // Extra unlock for stubborn WebViews: play a 1-frame silent buffer
+        try {
+          const ctx = window.audioContext || new (window.AudioContext || window.webkitAudioContext)();
+          window.audioContext = ctx;
+          const buf = ctx.createBuffer(1, 1, 22050);
+          const src = ctx.createBufferSource();
+          src.buffer = buf;
+          src.connect(ctx.destination);
+          src.start(0);
+          try { await ctx.resume(); } catch {}
+        } catch { /* ignore */ }
       }
 
       // Initialize button state
@@ -1195,7 +1174,7 @@
       // Update mobile hint based on audio status
       function updateMobileAudioStatus() {
         if (isMobile) {
-          if (isPlaying) {
+          if (window.isPlaying) {
             updateMobileHint("Audio playing • Swipe for controls");
           } else {
             updateMobileHint("Tap [play] to start audio");
@@ -1835,7 +1814,7 @@
       }
 
       function updateAudioAnalysis() {
-        if (analyser && dataArray && isPlaying) {
+        if (analyser && dataArray && window.isPlaying) {
           try {
             analyser.getByteFrequencyData(dataArray);
             const bassEnd = Math.floor(dataArray.length * 0.1);
@@ -2055,7 +2034,7 @@
         updateTrackInfo();
         
         // If currently playing, restart with new track
-        if (isPlaying) {
+        if (window.isPlaying) {
           audio.play().catch(e => console.log("Track switch play failed:", e));
         }
       }
@@ -2136,7 +2115,7 @@
         
         updateTrackInfo();
         
-        if (isPlaying) {
+        if (window.isPlaying) {
           audio.play().catch(e => console.log("Track switch play failed:", e));
         }
       }
@@ -2428,45 +2407,7 @@
         window.addEventListener("touchstart", handleVolumeTouchStart, { passive: true });
         window.addEventListener("touchmove", handleVolumeTouchMove, { passive: false });
         
-        // Enhanced mobile audio button touch handling
-        const audioBtn = document.getElementById("audioBtn");
-        if (audioBtn) {
-          audioBtn.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            console.log("📱 Mobile audio button touched");
-            
-            // Ensure audio context is ready
-            if (!audioContext) {
-              initializeMobileAudio();
-            }
-            
-            // For mobile, we need to handle the audio play differently
-            if (isMobile && !isPlaying) {
-              // Small delay to ensure audio context is ready
-              setTimeout(() => {
-                attemptPlayAudio();
-              }, 50);
-            }
-          }, { passive: false });
-          
-          // Also add click handler for mobile (some browsers need this)
-          audioBtn.addEventListener("click", (e) => {
-            if (isMobile) {
-              e.preventDefault();
-              console.log("📱 Mobile audio button clicked");
-              
-              if (!isPlaying) {
-                attemptPlayAudio();
-              } else {
-                audio.pause();
-                audio.currentTime = 0;
-                isPlaying = false;
-                audioBtn.textContent = "[ play ]";
-                updateMobileAudioStatus();
-              }
-            }
-          });
-        }
+        // Old mobile touch handlers removed - using new mobile-safe implementation
       }
 
       const clock = new THREE.Clock();
@@ -2492,107 +2433,69 @@
         renderer.render(scene, camera);
       }
 
-      audioBtn.addEventListener("click", (e) => {
-        // Prevent default for mobile to avoid conflicts
-        if (isMobile) {
-          e.preventDefault();
-        }
-        
-        console.log("🎵 Play button clicked, isPlaying:", isPlaying, "Mobile:", isMobile);
-        
-        if (!isPlaying) {
-          console.log("🔄 Attempting to play audio...");
-          
-          // Ensure audio context is set up
-          if (!audioContext) {
-            setupAnalyser();
-          }
-          
-          // For mobile, use the mobile-specific play function
-          if (isMobile) {
-            attemptPlayAudio();
-          } else {
-            // Desktop audio handling
-            if (audioContext && audioContext.state === "suspended") {
-              audioContext.resume().then(() => {
-                console.log("🔊 Audio context resumed");
-                attemptPlayAudio();
-              }).catch(e => {
-                console.error("❌ Audio context resume failed:", e);
-                attemptPlayAudio();
-              });
-            } else {
-              attemptPlayAudio();
-            }
-          }
-        } else {
-          console.log("⏸️ Stopping audio...");
+      // Replace previous multi-listener auto-starts: use *only* the button
+      audioBtn.onclick = async (e) => {
+        e.preventDefault();
+
+        // Toggle
+        if (window.isPlaying) {
           audio.pause();
           audio.currentTime = 0;
-          isPlaying = false;
+          window.isPlaying = false;
           audioBtn.textContent = "[ play ]";
-          updateMobileAudioStatus();
+          return;
         }
-      });
 
-      function attemptPlayAudio() {
-        const playAudio = async () => {
-          try {
-            // Ensure audio context is resumed first
-            if (audioContext && audioContext.state === "suspended") {
-              await audioContext.resume();
-              console.log("🔊 Audio context resumed before play");
-            }
-            
-            // Try to play the audio
-            await audio.play();
-            console.log("✅ Audio started successfully");
-            isPlaying = true;
-            audioBtn.textContent = "[ stop ]";
-            updateMobileAudioStatus();
-            
-          } catch (e) {
-            console.error("❌ Audio play failed:", e);
-            console.error("🔍 Error details:", e.message);
-            
-            // Mobile-specific error handling with retry logic
-            if (isMobile) {
-              if (e.name === 'NotAllowedError') {
-                audioBtn.textContent = "[ tap to play ]";
-                console.log("📱 Mobile: User interaction required - trying alternative approach");
-                
-                // Try unmuting and playing again
-                audio.muted = false;
-                setTimeout(async () => {
-                  try {
-                    await audio.play();
-                    console.log("✅ Audio started on retry");
-                    isPlaying = true;
-                    audioBtn.textContent = "[ stop ]";
-                  } catch (retryError) {
-                    console.error("❌ Retry failed:", retryError);
-                    audioBtn.textContent = "[ tap to play ]";
-                    isPlaying = false;
-                  }
-                }, 100);
-                
-              } else if (e.name === 'NotSupportedError') {
-                audioBtn.textContent = "[ unsupported ]";
-                console.log("📱 Mobile: Audio format not supported");
-              } else {
-                audioBtn.textContent = "[ audio failed ]";
-                console.log("📱 Mobile: Unknown audio error");
-              }
-            } else {
-              audioBtn.textContent = "[ audio failed ]";
-            }
-            
-            isPlaying = false;
+        // First-time bootstrap on the user's tap
+        try {
+          // Ensure src is safe (handles spaces) – if you renamed files, this is still harmless
+          if (!audio.src) setSafeSrc(window.randomTrack || (typeof randomTrack !== 'undefined' ? randomTrack : audio.src));
+
+          // iOS/WKWebView unlock
+          await unlockAudioContext();
+
+          // If AudioContext exists but is still suspended, resume inside this same gesture
+          if (window.audioContext && window.audioContext.state === "suspended") {
+            await window.audioContext.resume();
           }
-        };
-        
-        playAudio();
-      }
+
+          // Now perform the actual play, still within the same click task
+          await audio.play();
+
+          // Connect analyser once (if not already)
+          if (!window.analyser || !window.source) {
+            try { setupAnalyser(); } catch(e) { console.warn('setupAnalyser late-init:', e); }
+          }
+
+          window.isPlaying = true;
+          audioBtn.textContent = "[ stop ]";
+        } catch (err) {
+          console.warn('Mobile play failed:', err?.name || err);
+
+          // Graceful fallbacks
+          if (isInstagram || (isIOS && err?.name === 'NotAllowedError')) {
+            // Offer native controls – these often succeed where WebAudio+play() fails
+            let fallback = document.getElementById('fallbackAudio');
+            if (!fallback) {
+              fallback = document.createElement('audio');
+              fallback.id = 'fallbackAudio';
+              fallback.controls = true;
+              fallback.playsInline = true;
+              fallback.preload = 'metadata';
+              fallback.style.marginTop = '.5rem';
+              controlsEl?.appendChild(fallback);
+            }
+            fallback.src = audio.src || (typeof randomTrack !== 'undefined' ? encodeURI(randomTrack) : '');
+            // Try native element play (tends to work in IG)
+            try { await fallback.play(); window.isPlaying = true; audioBtn.textContent = "[ stop ]"; }
+            catch { audioBtn.textContent = "[ tap to play ]"; }
+          } else {
+            audioBtn.textContent = "[ tap to play ]";
+          }
+        }
+      };
+
+      // Old attemptPlayAudio function removed - using new mobile-safe implementation above
 
       // Mobile control buttons removed - using swipe gestures instead
 
