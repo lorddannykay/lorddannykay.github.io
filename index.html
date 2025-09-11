@@ -710,7 +710,9 @@
           <!-- Mobile controls removed - using swipe gestures instead -->
         </div>
         <div id="trackInfo" class="track-info"></div>
-        <div class="mobile-hint" id="mobileHint"></div>
+        <div class="mobile-hint" id="mobileHint">
+          <span class="mobile-hint-text">Tap [play] to start audio</span>
+        </div>
         <div class="volume-control" id="volumeControl">
           <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider" aria-label="Volume control">
           <span class="volume-label">Volume</span>
@@ -829,11 +831,29 @@
       // Just add new entries to this array when you add files to assets/audio/
       const audioTracks = [
         "assets/audio/switch.mp3",
-        "assets/audio/YellowClaw.mp3",
-        "assets/audio/FredAgain.mp3",
+        "assets/audio/Take it all.mp3",
+        "assets/audio/Victory Lap.mp3",
         // Add new tracks here as you add them to the assets/audio folder
         // Example: "assets/audio/your-new-track.mp3",
       ];
+      
+      // Mobile audio format support detection
+      function getSupportedAudioFormat() {
+        const audio = new Audio();
+        if (audio.canPlayType('audio/mpeg')) {
+          return 'mp3';
+        } else if (audio.canPlayType('audio/ogg')) {
+          return 'ogg';
+        } else if (audio.canPlayType('audio/wav')) {
+          return 'wav';
+        } else if (audio.canPlayType('audio/mp4')) {
+          return 'm4a';
+        }
+        return 'mp3'; // Default fallback
+      }
+      
+      const supportedFormat = getSupportedAudioFormat();
+      console.log("🎵 Supported audio format:", supportedFormat);
 
       // Helper function to get track name for display
       function getTrackName(trackPath) {
@@ -880,14 +900,31 @@
         audio.autoplay = false;
         audio.muted = false;
         audio.playsInline = true;
+        audio.controls = false;
+        // Add mobile-specific attributes
+        audio.setAttribute('webkit-playsinline', 'true');
+        audio.setAttribute('playsinline', 'true');
+        audio.setAttribute('x-webkit-airplay', 'allow');
       }
       
-      // Add error handling for audio loading
+      // Add comprehensive error handling for audio loading
       audio.addEventListener("error", (e) => {
         console.error("❌ Audio loading failed:", e);
         console.error("🔍 Failed track:", randomTrack);
         console.error("🔍 Audio error details:", audio.error);
-        audioBtn.textContent = "[ audio error ]";
+        
+        // Mobile-specific error handling
+        if (isMobile) {
+          console.log("📱 Mobile audio error - attempting fallback");
+          audioBtn.textContent = "[ tap to retry ]";
+          
+          // Try to reload the audio with different settings
+          setTimeout(() => {
+            audio.load();
+          }, 1000);
+        } else {
+          audioBtn.textContent = "[ audio error ]";
+        }
       });
       
       audio.addEventListener("loadstart", () => {
@@ -912,7 +949,27 @@
           audio.play().catch(e => console.log("Loop play failed:", e));
         }
       });
-      audio.load();
+      
+      // Mobile-specific audio loading with retry
+      function loadAudioWithRetry() {
+        audio.load();
+        
+        // Add timeout for mobile loading
+        if (isMobile) {
+          const loadTimeout = setTimeout(() => {
+            if (audio.readyState < 2) { // HAVE_CURRENT_DATA
+              console.log("📱 Mobile audio loading timeout, retrying...");
+              audio.load();
+            }
+          }, 3000);
+          
+          audio.addEventListener("canplay", () => {
+            clearTimeout(loadTimeout);
+          }, { once: true });
+        }
+      }
+      
+      loadAudioWithRetry();
 
       // --- Web Audio API for audio-reactive visuals ---
       // helper to connect audio into analyser once
@@ -953,6 +1010,12 @@
           audio.muted = false;
           audio.playsInline = true;
           audio.preload = "metadata";
+          audio.controls = false;
+          
+          // Add mobile-specific attributes
+          audio.setAttribute('webkit-playsinline', 'true');
+          audio.setAttribute('playsinline', 'true');
+          audio.setAttribute('x-webkit-airplay', 'allow');
           
           // Ensure audio context is created on first user interaction
           if (!audioContext) {
@@ -964,14 +1027,18 @@
             if (audioContext && audioContext.state === "suspended") {
               audioContext.resume().then(() => {
                 console.log("🔊 Mobile audio context resumed");
+              }).catch(e => {
+                console.warn("⚠️ Audio context resume failed:", e);
               });
             }
             document.removeEventListener('touchstart', initAudioOnTouch);
             document.removeEventListener('touchend', initAudioOnTouch);
+            document.removeEventListener('click', initAudioOnTouch);
           };
           
           document.addEventListener('touchstart', initAudioOnTouch, { once: true });
           document.addEventListener('touchend', initAudioOnTouch, { once: true });
+          document.addEventListener('click', initAudioOnTouch, { once: true });
         }
       }
 
@@ -988,44 +1055,60 @@
         isPlaying = true;
         audio.currentTime = 0;
         
-        // Mobile-specific play handling
-        const playPromise = audio.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log("✅ Audio started successfully");
-              audioBtn.textContent = "[ stop ]";
-              
-              // Resume context if suspended (common in mobile browsers)
-              if (audioContext && audioContext.state === "suspended") {
-                audioContext.resume().then(() => {
-                  console.log("🔊 Audio context resumed");
-                });
-              }
-            })
-            .catch((e) => {
-              console.error("❌ Audio play failed:", e);
-              console.error("🔍 Error details:", e.message);
-              
-              // Mobile-specific error handling
-              if (isMobile) {
-                if (e.name === 'NotAllowedError') {
-                  audioBtn.textContent = "[ tap to play ]";
-                  console.log("📱 Mobile: User interaction required");
-                } else if (e.name === 'NotSupportedError') {
-                  audioBtn.textContent = "[ unsupported ]";
-                  console.log("📱 Mobile: Audio format not supported");
-                } else {
-                  audioBtn.textContent = "[ audio failed ]";
-                }
+        // Mobile-specific play handling with better error recovery
+        const playAudio = async () => {
+          try {
+            // Ensure audio context is resumed first
+            if (audioContext && audioContext.state === "suspended") {
+              await audioContext.resume();
+              console.log("🔊 Audio context resumed before play");
+            }
+            
+            // Try to play the audio
+            await audio.play();
+            console.log("✅ Audio started successfully");
+            audioBtn.textContent = "[ stop ]";
+            updateMobileAudioStatus();
+            
+          } catch (e) {
+            console.error("❌ Audio play failed:", e);
+            console.error("🔍 Error details:", e.message);
+            
+            // Mobile-specific error handling with retry logic
+            if (isMobile) {
+              if (e.name === 'NotAllowedError') {
+                audioBtn.textContent = "[ tap to play ]";
+                console.log("📱 Mobile: User interaction required - trying alternative approach");
+                
+                // Try unmuting and playing again
+                audio.muted = false;
+                setTimeout(async () => {
+                  try {
+                    await audio.play();
+                    console.log("✅ Audio started on retry");
+                    audioBtn.textContent = "[ stop ]";
+                  } catch (retryError) {
+                    console.error("❌ Retry failed:", retryError);
+                    audioBtn.textContent = "[ tap to play ]";
+                  }
+                }, 100);
+                
+              } else if (e.name === 'NotSupportedError') {
+                audioBtn.textContent = "[ unsupported ]";
+                console.log("📱 Mobile: Audio format not supported");
               } else {
                 audioBtn.textContent = "[ audio failed ]";
+                console.log("📱 Mobile: Unknown audio error");
               }
-              
-              isPlaying = false;
-            });
-        }
+            } else {
+              audioBtn.textContent = "[ audio failed ]";
+            }
+            
+            isPlaying = false;
+          }
+        };
+        
+        playAudio();
         
         document.removeEventListener("click", startAudioOnce);
         document.removeEventListener("keydown", startAudioOnce);
@@ -1044,6 +1127,81 @@
 
       // Initialize button state
       audioBtn.textContent = "[ play ]";
+      
+      // Enhanced mobile audio setup
+      function setupMobileAudioCompatibility() {
+        if (isMobile) {
+          console.log("📱 Setting up mobile audio compatibility");
+          
+          // Add mobile-specific event listeners for better audio handling
+          const handleMobileAudioInit = (event) => {
+            console.log("📱 Mobile audio init triggered by:", event.type);
+            
+            // Ensure audio context is created and resumed
+            if (!audioContext) {
+              setupAnalyser();
+            }
+            
+            if (audioContext && audioContext.state === "suspended") {
+              audioContext.resume().then(() => {
+                console.log("🔊 Mobile audio context resumed on user interaction");
+              }).catch(e => {
+                console.warn("⚠️ Audio context resume failed:", e);
+              });
+            }
+            
+            // Remove listeners after first successful interaction
+            document.removeEventListener('touchstart', handleMobileAudioInit);
+            document.removeEventListener('touchend', handleMobileAudioInit);
+            document.removeEventListener('click', handleMobileAudioInit);
+            document.removeEventListener('keydown', handleMobileAudioInit);
+          };
+          
+          // Add multiple event listeners for better mobile compatibility
+          document.addEventListener('touchstart', handleMobileAudioInit, { once: true, passive: true });
+          document.addEventListener('touchend', handleMobileAudioInit, { once: true, passive: true });
+          document.addEventListener('click', handleMobileAudioInit, { once: true });
+          document.addEventListener('keydown', handleMobileAudioInit, { once: true });
+          
+          // Add visibility change handler for mobile browsers
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && audioContext && audioContext.state === "suspended") {
+              audioContext.resume().then(() => {
+                console.log("🔊 Audio context resumed on visibility change");
+              }).catch(e => {
+                console.warn("⚠️ Audio context resume failed on visibility change:", e);
+              });
+            }
+          });
+        }
+      }
+      
+      // Call mobile audio setup
+      setupMobileAudioCompatibility();
+      
+      // Mobile hint update function
+      function updateMobileHint(message) {
+        if (isMobile) {
+          const mobileHint = document.getElementById("mobileHint");
+          if (mobileHint) {
+            const hintText = mobileHint.querySelector('.mobile-hint-text');
+            if (hintText) {
+              hintText.textContent = message;
+            }
+          }
+        }
+      }
+      
+      // Update mobile hint based on audio status
+      function updateMobileAudioStatus() {
+        if (isMobile) {
+          if (isPlaying) {
+            updateMobileHint("Audio playing • Swipe for controls");
+          } else {
+            updateMobileHint("Tap [play] to start audio");
+          }
+        }
+      }
 
 
 
@@ -1889,7 +2047,7 @@
         currentTrackIndex = (currentTrackIndex + 1) % audioTracks.length;
         const newTrack = audioTracks[currentTrackIndex];
         audio.src = newTrack;
-        audio.load();
+        loadAudioWithRetry();
         console.log("🎵 Switched to track:", getTrackName(newTrack));
         console.log("📊 Track", currentTrackIndex + 1, "of", audioTracks.length);
         
@@ -1972,7 +2130,7 @@
         currentTrackIndex = (currentTrackIndex - 1 + audioTracks.length) % audioTracks.length;
         const newTrack = audioTracks[currentTrackIndex];
         audio.src = newTrack;
-        audio.load();
+        loadAudioWithRetry();
         console.log("🎵 Switched to previous track:", getTrackName(newTrack));
         console.log("📊 Track", currentTrackIndex + 1, "of", audioTracks.length);
         
@@ -2270,16 +2428,44 @@
         window.addEventListener("touchstart", handleVolumeTouchStart, { passive: true });
         window.addEventListener("touchmove", handleVolumeTouchMove, { passive: false });
         
-        // Mobile audio button touch handling
+        // Enhanced mobile audio button touch handling
         const audioBtn = document.getElementById("audioBtn");
         if (audioBtn) {
           audioBtn.addEventListener("touchstart", (e) => {
             e.preventDefault();
+            console.log("📱 Mobile audio button touched");
+            
             // Ensure audio context is ready
             if (!audioContext) {
               initializeMobileAudio();
             }
+            
+            // For mobile, we need to handle the audio play differently
+            if (isMobile && !isPlaying) {
+              // Small delay to ensure audio context is ready
+              setTimeout(() => {
+                attemptPlayAudio();
+              }, 50);
+            }
           }, { passive: false });
+          
+          // Also add click handler for mobile (some browsers need this)
+          audioBtn.addEventListener("click", (e) => {
+            if (isMobile) {
+              e.preventDefault();
+              console.log("📱 Mobile audio button clicked");
+              
+              if (!isPlaying) {
+                attemptPlayAudio();
+              } else {
+                audio.pause();
+                audio.currentTime = 0;
+                isPlaying = false;
+                audioBtn.textContent = "[ play ]";
+                updateMobileAudioStatus();
+              }
+            }
+          });
         }
       }
 
@@ -2306,8 +2492,13 @@
         renderer.render(scene, camera);
       }
 
-      audioBtn.addEventListener("click", () => {
-        console.log("🎵 Play button clicked, isPlaying:", isPlaying);
+      audioBtn.addEventListener("click", (e) => {
+        // Prevent default for mobile to avoid conflicts
+        if (isMobile) {
+          e.preventDefault();
+        }
+        
+        console.log("🎵 Play button clicked, isPlaying:", isPlaying, "Mobile:", isMobile);
         
         if (!isPlaying) {
           console.log("🔄 Attempting to play audio...");
@@ -2317,17 +2508,22 @@
             setupAnalyser();
           }
           
-          // Ensure audio context is resumed if suspended
-          if (audioContext && audioContext.state === "suspended") {
-            audioContext.resume().then(() => {
-              console.log("🔊 Audio context resumed");
-              attemptPlayAudio();
-            }).catch(e => {
-              console.error("❌ Audio context resume failed:", e);
-              attemptPlayAudio();
-            });
-          } else {
+          // For mobile, use the mobile-specific play function
+          if (isMobile) {
             attemptPlayAudio();
+          } else {
+            // Desktop audio handling
+            if (audioContext && audioContext.state === "suspended") {
+              audioContext.resume().then(() => {
+                console.log("🔊 Audio context resumed");
+                attemptPlayAudio();
+              }).catch(e => {
+                console.error("❌ Audio context resume failed:", e);
+                attemptPlayAudio();
+              });
+            } else {
+              attemptPlayAudio();
+            }
           }
         } else {
           console.log("⏸️ Stopping audio...");
@@ -2335,41 +2531,67 @@
           audio.currentTime = 0;
           isPlaying = false;
           audioBtn.textContent = "[ play ]";
+          updateMobileAudioStatus();
         }
       });
 
       function attemptPlayAudio() {
-        const playPromise = audio.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log("✅ Audio started successfully");
-              isPlaying = true;
-              audioBtn.textContent = "[ stop ]";
-            })
-            .catch((e) => {
-              console.error("❌ Audio play failed:", e);
-              console.error("🔍 Error details:", e.message);
-              
-              // Mobile-specific error handling
-              if (isMobile) {
-                if (e.name === 'NotAllowedError') {
-                  audioBtn.textContent = "[ tap to play ]";
-                  console.log("📱 Mobile: User interaction required");
-                } else if (e.name === 'NotSupportedError') {
-                  audioBtn.textContent = "[ unsupported ]";
-                  console.log("📱 Mobile: Audio format not supported");
-                } else {
-                  audioBtn.textContent = "[ audio failed ]";
-                }
+        const playAudio = async () => {
+          try {
+            // Ensure audio context is resumed first
+            if (audioContext && audioContext.state === "suspended") {
+              await audioContext.resume();
+              console.log("🔊 Audio context resumed before play");
+            }
+            
+            // Try to play the audio
+            await audio.play();
+            console.log("✅ Audio started successfully");
+            isPlaying = true;
+            audioBtn.textContent = "[ stop ]";
+            updateMobileAudioStatus();
+            
+          } catch (e) {
+            console.error("❌ Audio play failed:", e);
+            console.error("🔍 Error details:", e.message);
+            
+            // Mobile-specific error handling with retry logic
+            if (isMobile) {
+              if (e.name === 'NotAllowedError') {
+                audioBtn.textContent = "[ tap to play ]";
+                console.log("📱 Mobile: User interaction required - trying alternative approach");
+                
+                // Try unmuting and playing again
+                audio.muted = false;
+                setTimeout(async () => {
+                  try {
+                    await audio.play();
+                    console.log("✅ Audio started on retry");
+                    isPlaying = true;
+                    audioBtn.textContent = "[ stop ]";
+                  } catch (retryError) {
+                    console.error("❌ Retry failed:", retryError);
+                    audioBtn.textContent = "[ tap to play ]";
+                    isPlaying = false;
+                  }
+                }, 100);
+                
+              } else if (e.name === 'NotSupportedError') {
+                audioBtn.textContent = "[ unsupported ]";
+                console.log("📱 Mobile: Audio format not supported");
               } else {
                 audioBtn.textContent = "[ audio failed ]";
+                console.log("📱 Mobile: Unknown audio error");
               }
-              
-              isPlaying = false;
-            });
-        }
+            } else {
+              audioBtn.textContent = "[ audio failed ]";
+            }
+            
+            isPlaying = false;
+          }
+        };
+        
+        playAudio();
       }
 
       // Mobile control buttons removed - using swipe gestures instead
@@ -2413,6 +2635,7 @@
       // Initialize mobile audio if needed
       if (isMobile) {
         initializeMobileAudio();
+        updateMobileAudioStatus();
       }
       
       // Setup mobile link handling
