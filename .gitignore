@@ -1,0 +1,30 @@
+# System files
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Personal documents
+Dhanikesh Karunanith2.docx
+*.docx
+*.pdf
+
+# Node modules (if any)
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Environment files
+.env
+.env.local
