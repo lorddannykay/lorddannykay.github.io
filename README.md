@@ -21,6 +21,11 @@ Dhanikesh Karunanithi is a global learning-technology and data-strategy executiv
 - **Features:** Custom cursor, responsive design, smooth animations
 - **Deployment:** GitHub Pages with custom domain
 
+## 🎨 Design Credits
+- **Original Template:** [Aleksandar Radosavović (@alex2dots)](https://webflow.com/@alex2dots)
+- **Template Source:** Webflow Template
+- **Customizations:** Extensive modifications for portfolio content, navigation, and functionality
+
 ## 📱 Pages
 - **Home** - Professional introduction and overview
 - **About** - Detailed background and achievements
