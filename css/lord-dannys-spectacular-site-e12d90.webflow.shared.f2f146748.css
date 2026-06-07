@@ -5346,3 +5346,58 @@ a {
     background-color: #fff;
   }
 }
+
+/* Footer: render immediately on all pages (disable Webflow scroll-in delay) */
+.footer,
+.footer-logo-wrap,
+.footer-bootom-part-wrap,
+.footer-bootom-text,
+.footer-heading-wrap,
+.footer-heading-1,
+.footer-heading-1-wrap,
+.footer-heading-1-1,
+.footer-heading-1-1-wrap,
+.footer-heading-1-2,
+.footer-heading-1-2-wrap,
+.footer-paragraph,
+.paragraph.footer-paragraph,
+.footer-links-wrap,
+.port-to-top-info-wrap,
+.footer-info-wrap,
+.footer-center-line-wrap,
+.footer-center-line,
+.footer-frame-line-left,
+.footer-frame-line-right,
+.footer-frame-line-top,
+.footer-frame-line-bottom,
+.footer [data-w-id*="8c1d2cce"]:not(.footer-email-link-wrap):not(.footer-phone-link-wrap):not(.port-to-top-wrap),
+.footer [data-w-id*="d2e31283"] {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+  translate: none !important;
+  visibility: visible !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Footer contact links: always visible (hover slide hides text at -100%) */
+.footer-email-link-wrap,
+.footer-phone-link-wrap {
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
+
+.footer-email-link-wrap .footer-email-text.second {
+  display: none !important;
+}
+
+.footer-email-link-wrap .footer-email-text:not(.second),
+.footer-phone-link-wrap .footer-phone-text {
+  opacity: 1 !important;
+  transform: none !important;
+  translate: none !important;
+  visibility: visible !important;
+  position: relative !important;
+  margin-top: 0 !important;
+}
