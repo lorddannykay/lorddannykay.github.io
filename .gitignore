@@ -28,3 +28,6 @@ build/
 # Environment files
 .env
 .env.local
+
+# Local deployment notes (not for the public Pages repo)
+DEPLOY_WORKFLOW.local.md

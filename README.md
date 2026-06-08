@@ -5,6 +5,9 @@ Global Head of Learning Tech & Data Strategy | AI Innovation in L&D
 ## 🌐 Live Website
 [dhanikeshkarunanithi.com](https://dhanikeshkarunanithi.com)
 
+## 🚀 Deployment
+Hosted on **GitHub Pages** via [`lorddannykay/lorddannykay.github.io`](https://github.com/lorddannykay/lorddannykay.github.io) (not Vercel). Maintainers: see local `DEPLOY_WORKFLOW.local.md` for the full push workflow (gitignored).
+
 ## 👨‍💼 About
 Dhanikesh Karunanithi is a global learning-technology and data-strategy executive with 10+ years of experience leading multi-vertical teams across product management, platform strategy, operations, and analytics. 
 
