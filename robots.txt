@@ -1,4 +1,69 @@
+# Dhanikesh Karunanithi (Dhani) — dhanikeshkarunanithi.com
+# Global Head of Learning Technology, Practice & Data Strategy | AI & EdTech leader
+
 User-agent: *
 Allow: /
 
+# Google Search & Gemini
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+# OpenAI (ChatGPT, SearchGPT)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Microsoft Copilot / Bing
+User-agent: Bingbot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Apple Intelligence / Siri
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (widely used in AI training datasets)
+User-agent: CCBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
 Sitemap: https://dhanikeshkarunanithi.com/sitemap.xml
+
+# AI context file (llms.txt standard): https://dhanikeshkarunanithi.com/llms.txt

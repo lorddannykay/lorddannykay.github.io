@@ -1,0 +1,430 @@
+/* ==========================================================================
+   Mobile Responsive Fixes
+   Overrides Webflow template mobile heading visibility + spacing issues.
+   Desktop hero typography consolidated from per-page inline styles.
+   ========================================================================== */
+
+/* --- Desktop hero typography (all breakpoints) --- */
+.heading-1.home-s1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.1;
+  font-weight: 300;
+}
+
+.heading-1-1.home-s1 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.heading-1-2.home-s1 {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  line-height: 1.3;
+  font-weight: 300;
+}
+
+.heading-1-3.home-s1,
+.heading-1-4.home-s1,
+.heading-1-5.home-s1 {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.heading-1.byteai-s1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.2;
+}
+
+.heading-1-1.byteai-s1 {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  line-height: 1.3;
+}
+
+.heading-1.what-hero {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 300;
+}
+
+.heading-1-1.what-hero {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  line-height: 1.45;
+  font-weight: 300;
+  margin-top: 1rem;
+}
+
+/* --- Menu button sizing (all pages) --- */
+.wrap-menu-button {
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+}
+
+.menu-columns {
+  justify-content: space-evenly !important;
+  gap: 20px !important;
+}
+
+.menu-column-1,
+.menu-column-2,
+.menu-column-3,
+.menu-column-4 {
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.menu-button-text {
+  font-size: 2rem !important;
+}
+
+/* --- Tablet and below (991px) --- */
+@media screen and (max-width: 991px) {
+  /* Restore visibility — custom content has no .mobile duplicates */
+  .heading-1,
+  .heading-1-1,
+  .heading-1-2,
+  .heading-1-3,
+  .heading-1-4,
+  .heading-1-5 {
+    visibility: visible !important;
+  }
+
+  .heading-1.home-s1,
+  .heading-1.home-s4,
+  .heading-1.home-s5,
+  .heading-1.home-s6,
+  .heading-1.byteai-s1,
+  .heading-1.byteai,
+  .heading-1.contact-s1,
+  .heading-1.contact,
+  .heading-1.error-s1,
+  .heading-1.error,
+  .heading-1.what-hero,
+  .heading-1.what,
+  .heading-1.what-s1,
+  .heading-1.success,
+  .heading-1.form-error-message-text {
+    display: block !important;
+  }
+
+  .heading-1.who-s1-ceo,
+  .heading-1.who-s2,
+  .heading-1.who-s3,
+  .heading-1.who-s4,
+  .heading-1.who-s5 {
+    display: flex !important;
+  }
+
+  .heading-1-1.home-s1,
+  .heading-1-1.home-s4,
+  .heading-1-1.home-s5,
+  .heading-1-1.home-s6,
+  .heading-1-1.byteai-s1,
+  .heading-1-1.contact-s1,
+  .heading-1-1.error-s1,
+  .heading-1-1.what-hero {
+    display: block !important;
+  }
+
+  .heading-1-2.home-s1,
+  .heading-1-2.home-s3,
+  .heading-1-2.home-s4,
+  .heading-1-2.home-s5,
+  .heading-1-2.home-s6,
+  .heading-1-3.home-s1,
+  .heading-1-3.home-s4,
+  .heading-1-3.home-s5,
+  .heading-1-3.home-s6,
+  .heading-1-4.home-s1,
+  .heading-1-4.home-s4,
+  .heading-1-5.home-s1 {
+    display: block !important;
+  }
+
+  .section.who-s3-resume {
+    margin-top: 8vh !important;
+    margin-bottom: 8vh !important;
+  }
+
+  /* Responsive typography */
+  h1,
+  .heading-1 {
+    font-size: clamp(1.4rem, 5.5vw, 2.25rem) !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  h2,
+  .heading-1-1 {
+    font-size: clamp(1rem, 4vw, 1.5rem) !important;
+    line-height: 1.3 !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  h3,
+  .heading-1-2,
+  .heading-1-3,
+  .heading-1-4,
+  .heading-1-5 {
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem) !important;
+    line-height: 1.35 !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .heading-1.home-s4,
+  .heading-1-1.home-s4 {
+    font-size: clamp(1.25rem, 4.5vw, 1.75rem) !important;
+  }
+
+  .heading-1.home-s1 {
+    font-size: clamp(1.5rem, 6vw, 2.25rem) !important;
+  }
+
+  .heading-1-1.home-s1 {
+    font-size: clamp(1rem, 4.5vw, 1.4rem) !important;
+  }
+
+  .heading-1-2.home-s1,
+  .heading-1-3.home-s1,
+  .heading-1-4.home-s1,
+  .heading-1-5.home-s1 {
+    font-size: clamp(0.85rem, 3.5vw, 1.1rem) !important;
+  }
+
+  .heading-1.byteai-s1 {
+    font-size: clamp(1.4rem, 5.5vw, 2rem) !important;
+  }
+
+  .heading-1-1.byteai-s1 {
+    font-size: clamp(0.95rem, 4vw, 1.35rem) !important;
+  }
+
+  .heading-1.what-hero {
+    font-size: clamp(1.5rem, 6vw, 2.25rem) !important;
+  }
+
+  .heading-1-1.what-hero {
+    font-size: clamp(0.9rem, 3.8vw, 1.2rem) !important;
+  }
+
+  .paragraph,
+  p.paragraph {
+    font-size: clamp(0.8rem, 3.2vw, 0.95rem) !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
+    max-width: 36rem;
+  }
+
+  .paragraph.home,
+  .paragraph.who,
+  .paragraph.what,
+  .paragraph.byteai,
+  .paragraph.footer-paragraph {
+    width: 100% !important;
+    max-width: 36rem;
+  }
+
+  /* Section layout */
+  .section {
+    height: auto !important;
+    min-height: auto;
+    margin-left: 5vw !important;
+    margin-right: 5vw !important;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .section#TOP,
+  #TOP.section {
+    min-height: 100svh;
+    justify-content: center;
+  }
+
+  .section.home-s2,
+  .section.home-s3,
+  .section.home-s4,
+  .section.home-s5,
+  .section.home-s6 {
+    margin-top: 12vh !important;
+    margin-bottom: 12vh !important;
+  }
+
+  .section.home-s4 {
+    padding-bottom: 8vh !important;
+    overflow: visible !important;
+  }
+
+  /* Prevent scroll-animation clipping */
+  .wrap-heading {
+    overflow: visible !important;
+  }
+
+  /* Menu sizing */
+  .wrap-menu-button {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .menu-button-text {
+    font-size: 1.5rem !important;
+  }
+
+  .menu-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .menu-email-link,
+  .menu-phone-link {
+    font-size: 0.75rem !important;
+    padding: 0.5rem 0;
+  }
+
+  /* About page spacing */
+  .who-s5-part-2,
+  .who-s5-part-3,
+  .who-s5-part-4,
+  .who-s5-part-5 {
+    margin-top: 12vh !important;
+  }
+
+  .vertical-line-who-s3,
+  .vertical-line-who-s5 {
+    height: 15vh !important;
+  }
+}
+
+/* --- Phone (767px) --- */
+@media screen and (max-width: 767px) {
+  h1,
+  .heading-1 {
+    font-size: clamp(1.25rem, 5vw, 1.85rem) !important;
+  }
+
+  h2,
+  .heading-1-1 {
+    font-size: clamp(0.95rem, 3.8vw, 1.25rem) !important;
+  }
+
+  h3,
+  .heading-1-2,
+  .heading-1-3,
+  .heading-1-4,
+  .heading-1-5 {
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem) !important;
+  }
+
+  .heading-1.home-s1 {
+    font-size: clamp(1.35rem, 6vw, 1.9rem) !important;
+  }
+
+  .heading-1-1.home-s1 {
+    font-size: clamp(0.95rem, 4.2vw, 1.2rem) !important;
+  }
+
+  .heading-1-2.home-s1,
+  .heading-1-3.home-s1,
+  .heading-1-4.home-s1,
+  .heading-1-5.home-s1 {
+    font-size: clamp(0.8rem, 3.5vw, 1rem) !important;
+  }
+
+  .heading-1.home-s4,
+  .heading-1-1.home-s4 {
+    font-size: clamp(1.1rem, 4vw, 1.5rem) !important;
+  }
+
+  .heading-1.byteai-s1 {
+    font-size: clamp(1.25rem, 5.5vw, 1.75rem) !important;
+  }
+
+  .heading-1-1.byteai-s1 {
+    font-size: clamp(0.9rem, 3.8vw, 1.2rem) !important;
+  }
+
+  .section.home-s2,
+  .section.home-s3,
+  .section.home-s4,
+  .section.home-s5,
+  .section.home-s6 {
+    margin-top: 8vh !important;
+    margin-bottom: 8vh !important;
+  }
+
+  .section {
+    margin-left: 1.25rem !important;
+    margin-right: 1.25rem !important;
+  }
+
+  /* 2x2 menu grid */
+  .menu-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    flex-direction: unset !important;
+    gap: 1rem !important;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .menu-column-1,
+  .menu-column-2,
+  .menu-column-3,
+  .menu-column-4 {
+    width: 100% !important;
+    flex: unset !important;
+  }
+
+  .wrap-menu-button {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .menu-button-text {
+    font-size: 1.2rem !important;
+  }
+
+  .who-s5-part-2,
+  .who-s5-part-3,
+  .who-s5-part-4,
+  .who-s5-part-5 {
+    margin-top: 8vh !important;
+  }
+
+  .vertical-line-who-s3,
+  .vertical-line-who-s5 {
+    height: 10vh !important;
+  }
+
+  .wrap-heading.who-s3 {
+    padding-left: 1.25rem !important;
+  }
+
+  .who-s5-wrap {
+    margin-left: 1.25rem !important;
+    padding-left: 1rem !important;
+  }
+
+  /* Contact page mobile typography */
+  .heading-1.contact,
+  .heading-1.contact-s1 {
+    font-size: clamp(1.1rem, 4.5vw, 1.4rem) !important;
+  }
+
+  .heading-1-1.contact-s1 {
+    font-size: clamp(0.9rem, 3.8vw, 1.1rem) !important;
+  }
+
+  .contact-form {
+    padding: 1.25rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
