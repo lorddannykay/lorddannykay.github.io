@@ -427,4 +427,108 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+
+  .sm-button-1 {
+    transform: translate(0, -44px);
+  }
+
+  .sm-button-2 {
+    transform: translate(0, -88px);
+  }
+
+  .sm-button-3 {
+    transform: translate(0, -132px);
+  }
+
+  .sm-button-4 {
+    transform: translate(0, -176px);
+  }
+
+  .sm-button-5 {
+    transform: translate(0, -220px);
+  }
+}
+
+/* --- Social media logo buttons --- */
+.sm-button-1,
+.sm-button-2,
+.sm-button-3,
+.sm-button-4,
+.sm-button-5 {
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+}
+
+.sm-button-3,
+.sm-button-4,
+.sm-button-5 {
+  cursor: none;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.sm-button-3 {
+  transform: translate(0, -150px);
+  gap: 4px;
+}
+
+.sm-button-4 {
+  transform: translate(0, -200px);
+}
+
+.sm-button-5 {
+  transform: translate(0, -250px);
+}
+
+.sm-logo {
+  display: block;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  pointer-events: none;
+}
+
+.sm-logo-brand {
+  filter: none;
+  background-color: #fff;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+}
+
+.sm-logo-sudar {
+  -webkit-mask-image: url('../images/logos/sudar.png');
+  mask-image: url('../images/logos/sudar.png');
+}
+
+.sm-logo-byteverse {
+  -webkit-mask-image: url('../images/logos/byteverse.png');
+  mask-image: url('../images/logos/byteverse.png');
+}
+
+.sm-button-github {
+  width: 50px;
+}
+
+.sm-github-link {
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
