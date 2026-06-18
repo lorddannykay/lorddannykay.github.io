@@ -14,7 +14,7 @@ Dhanikesh Karunanithi is a global learning-technology and data-strategy executiv
 **Key Achievements:**
 - 2× Gold Stevie Awards (2024) - HR Innovation & Technology
 - Brandon Hall Gold & Silver (2022) - Excellence in L&D
-- Managed enterprise product revenue exceeding $1M
+- Managed Multi-Million enterprise product revenue
 - Led award-winning L'Oréal China Spark LXP implementation
 - Founded ByteVerse - AI-powered learning ecosystem
 
@@ -46,7 +46,7 @@ Dhanikesh Karunanithi is a global learning-technology and data-strategy executiv
 - 2× Gold Stevie Awards (2024)
 - Brandon Hall Gold & Silver (2022)
 - Global security and privacy excellence
-- Cost optimization achievements ($200K+ savings)
+- Over a half a million in savings through automation and AI-powered workflows
 
 ---
 *Built with ❤️ for the future of learning technology*
